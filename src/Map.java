@@ -13,12 +13,13 @@ public class Map {
 	public Map(){
 		
 		this.endY = Map.nbCaseH;
-		this.startY = Map.nbCaseH-30;
+		this.startY = 0;
+		
 		this.lesCases = new Case[Map.nbCaseL][Map.nbCaseH];
 		
 		for(int j = 0;j<Map.nbCaseH;j++)
 			for(int i = 0;i<Map.nbCaseL;i++){
-				this.lesCases[i][j] = new Case(Case.LARGEUR_CASE*i  ,  Case.LARGEUR_CASE*j - this.startY*Case.LARGEUR_CASE);
+				this.lesCases[i][j] = new Case(Case.LARGEUR_CASE*i  ,  Case.LARGEUR_CASE*j + FenetreSnake.OFFSET_TITLEBAR);
 			}
 		
 		

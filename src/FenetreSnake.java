@@ -17,7 +17,7 @@ public class FenetreSnake extends JFrame implements KeyListener{
 	public UpdateThread updateThread;
 	public Graphics buffer;
 	public BufferStrategy strategy;
-	
+	public static int OFFSET_TITLEBAR = 20;
 	private Map map;
 	private Snake snake;
 	
@@ -43,7 +43,7 @@ public class FenetreSnake extends JFrame implements KeyListener{
 		
 		//SNAKE
 		for(int i = 0;i<5;i++)
-			this.snake.getBody()[i] = new SnakePart(this.map.getLesCases()[i+10][this.getMap().getEndY()-10]);
+			this.snake.getBody()[i] = new SnakePart(this.map.getLesCases()[10][i+10]);
 		
 		
 		//RenderingThread
@@ -84,7 +84,7 @@ public class FenetreSnake extends JFrame implements KeyListener{
 			for(int i = 0;i<Map.getNbCaseL();i++){
 				//System.out.println("Case "+i+" "+j+" : X :"+map.getLesCases()[i][j].getX()+" Y : "+map.getLesCases()[i][j].getY());
 				buffer.drawRect(map.getLesCases()[i][j].getX(), map.getLesCases()[i][j].getY(), map.getLesCases()[i][j].getX()+Case.LARGEUR_CASE, map.getLesCases()[i][j].getY()+Case.LARGEUR_CASE);
-				this.buffer.drawString(""+cpt, map.getLesCases()[i][j].getX(), map.getLesCases()[i][j].getY());
+				//this.buffer.drawString(""+cpt, map.getLesCases()[i][j].getX(), map.getLesCases()[i][j].getY());
 				cpt++;
 			}
 		}
