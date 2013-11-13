@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 
 public class Snake {
 	private FenetreSnake owner;
@@ -11,7 +13,7 @@ public class Snake {
 	public Snake(FenetreSnake owner){
 		this.owner = owner;
 		this.snakeLength = 5;
-		this.direction = "Down";
+		this.direction = "Up";
 		
 		this.body = new SnakePart[10];
 	}
@@ -25,21 +27,25 @@ public class Snake {
 		
 		tmp = this.body[0].getActualCase();
 		
+		
+		
 		switch(this.direction){
 		case "Left":
-			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)-1][tmp.getY()/Case.LARGEUR_CASE]);
+			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)-1][tmp.getY()/Case.LARGEUR_CASE + this.owner.getMap().getStartY()]);
 			break;
 		case "Right":
-			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)+1][tmp.getY()/Case.LARGEUR_CASE]);
+			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)+1][tmp.getY()/Case.LARGEUR_CASE + this.owner.getMap().getStartY()]);
 			break;
 		case "Up": 
-			this.body[0].setActualCase(this.owner.getMap().getLesCases()[tmp.getX()/Case.LARGEUR_CASE][(tmp.getY()/Case.LARGEUR_CASE)-1]);
+			this.body[0].setActualCase(this.owner.getMap().getLesCases()[tmp.getX()/Case.LARGEUR_CASE][(tmp.getY()/Case.LARGEUR_CASE)-1 + this.owner.getMap().getStartY()]);
 			break;
 		case "Down": 
-			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)][(tmp.getY()/Case.LARGEUR_CASE)+1]);
+			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)][(tmp.getY()/Case.LARGEUR_CASE)+1 + this.owner.getMap().getStartY()]);
+
 			break;
 		default:
-			
+			System.out.println("Pas de move..");
+			break;
 		}
 	}
 	
