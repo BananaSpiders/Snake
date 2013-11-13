@@ -13,8 +13,6 @@ public class Snake {
 		this.snakeLength = 5;
 		this.direction = "Down";
 		
-		this.vDeplacement = 5;
-		
 		this.body = new SnakePart[10];
 	}
 	
@@ -28,17 +26,17 @@ public class Snake {
 		tmp = this.body[0].getActualCase();
 		
 		switch(this.direction){
-		case "Left":System.out.println("Left"); 
-			this.body[0].setActualCase(this.owner.getMap().getLesCases()[tmp.getX()-1][tmp.getY()]);
+		case "Left":
+			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)-1][tmp.getY()/Case.LARGEUR_CASE]);
 			break;
-		case "Right":System.out.println("Right"); 
-			this.body[0].setActualCase(this.owner.getMap().getLesCases()[tmp.getX()+1][tmp.getY()]);
+		case "Right":
+			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)+1][tmp.getY()/Case.LARGEUR_CASE]);
 			break;
-		case "Up":System.out.println("Up"); 
-			this.body[0].setActualCase(this.owner.getMap().getLesCases()[tmp.getX()][tmp.getY()-1]);
+		case "Up": 
+			this.body[0].setActualCase(this.owner.getMap().getLesCases()[tmp.getX()/Case.LARGEUR_CASE][(tmp.getY()/Case.LARGEUR_CASE)-1]);
 			break;
-		case "Down": System.out.println("Down");
-			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/FenetreSnake.LARGEUR_CASE)][(tmp.getY()/FenetreSnake.LARGEUR_CASE)+1]);
+		case "Down": 
+			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)][(tmp.getY()/Case.LARGEUR_CASE)+1]);
 			break;
 		default:
 			
@@ -46,7 +44,19 @@ public class Snake {
 	}
 	
 	public void wayUpdate(String way){
-		this.direction = way;
+		boolean ok = true;
+		
+		if(this.direction.equals("Up") && way.equals("Down"))
+			ok = false;
+		if(this.direction.equals("Down") && way.equals("Up"))
+			ok = false;
+		if(this.direction.equals("Left") && way.equals("Right"))
+			ok = false;
+		if(this.direction.equals("Right") && way.equals("Left"))
+			ok = false;
+		
+		if(ok)
+			this.direction = way;
 	}
 
 	public SnakePart[] getBody() {

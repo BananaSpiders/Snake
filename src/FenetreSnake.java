@@ -9,14 +9,14 @@ import javax.swing.JFrame;
 
 public class FenetreSnake extends JFrame implements KeyListener{
 
-	public static final int HAUTEUR_FENETRE = 600;
-	public static final int LARGEUR_FENETRE = 800;
-	public static final int LARGEUR_CASE = 20;
+	public static final int HAUTEUR_FENETRE = 800;
+	public static final int LARGEUR_FENETRE = 600;
 	
 	public int nbCasesL;
 	public int nbCasesH;
 	
 	public RenderingThread renderingThread;
+	public UpdateThread updateThread;
 	public Graphics buffer;
 	public BufferStrategy strategy;
 	
@@ -25,15 +25,13 @@ public class FenetreSnake extends JFrame implements KeyListener{
 	
 	
 	public FenetreSnake(){
-		this.nbCasesH = HAUTEUR_FENETRE/LARGEUR_CASE;
-		this.nbCasesL = LARGEUR_FENETRE/LARGEUR_CASE;
 		
-		this.map = new Map(nbCasesH, nbCasesL);
+		this.map = new Map();
 		this.snake = new Snake(this);
 		
 		//Fenetre
 		this.setTitle("Snake-Like");
-		this.setSize(800,600);
+		this.setSize(FenetreSnake.LARGEUR_FENETRE,FenetreSnake.HAUTEUR_FENETRE);
 		setResizable(false); // On empeche le redimensionnement de la fenetre
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // On quitte l'application lorsque l'on clique sur la croix
 		this.setIgnoreRepaint(true);
@@ -49,16 +47,18 @@ public class FenetreSnake extends JFrame implements KeyListener{
 		for(int i = 0;i<5;i++)
 			this.snake.getBody()[i] = new SnakePart(this.map.getLesCases()[i+10][10]);
 		
-		//Rendering Thread
+		//RenderingThread
 		this.renderingThread = new RenderingThread(this);
 		renderingThread.start();
 		
-
+		//UpdateThread
+		this.updateThread = new UpdateThread(this);
+		this.updateThread.start();
 		
 	}
 	
 	public void render(){
-		this.buffer.clearRect(0	, 0, 	800, 600);
+		this.buffer.clearRect(0	, 0, 	FenetreSnake.LARGEUR_FENETRE, FenetreSnake.HAUTEUR_FENETRE);
 		
 		this.buffer.setColor(Color.BLACK);
 		
@@ -66,30 +66,26 @@ public class FenetreSnake extends JFrame implements KeyListener{
 		
 		this.buffer.setColor(Color.RED);
 		
-		
 		this.drawSnake();
 		
-		
 		this.strategy.show();
-		
+	}
+	
+	public void update(){
 		this.snake.move();
 	}
 	
 	public void drawMap(){
-		for(int j = 0;j<nbCasesH;j++)
+		for(int j = this.map.getStartY();j<this.map.getEndY();j++)
 			for(int i = 0;i<nbCasesL;i++){
-				buffer.drawRect(map.getLesCases()[i][j].getX(), map.getLesCases()[i][j].getY(), map.getLesCases()[i][j].getX()+FenetreSnake.LARGEUR_CASE, map.getLesCases()[i][j].getY()+FenetreSnake.LARGEUR_CASE);
+				buffer.drawRect(map.getLesCases()[i][j].getX(), map.getLesCases()[i][j].getY(), map.getLesCases()[i][j].getX()+Case.LARGEUR_CASE, map.getLesCases()[i][j].getY()+Case.LARGEUR_CASE);
 			}
 	}
 	
 	public void drawSnake(){
 		
-		int nb = 0;
-		
-		nb = this.snake.getBody()[0].getActualCase().getX();
-		
 		for(int i = 0;i<this.snake.getSnakeLength();i++){
-			buffer.fillOval(this.snake.getBody()[i].getActualCase().getX(), this.snake.getBody()[i].getActualCase().getY(), FenetreSnake.LARGEUR_CASE, FenetreSnake.LARGEUR_CASE);
+			buffer.fillOval(this.snake.getBody()[i].getActualCase().getX(), this.snake.getBody()[i].getActualCase().getY(), Case.LARGEUR_CASE, Case.LARGEUR_CASE);
 		}
 	}
 	
