@@ -13,7 +13,7 @@ public class SnakePart {
 	public SnakePart(Case actualCase){
 		this.actualCase = actualCase;
 		
-		this.chargeImage();
+		//this.chargeImage();
 		
 	}
 	

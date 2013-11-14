@@ -2,7 +2,7 @@
 public class Case {
 	private int x;
 	private int y;
-	public static final int LARGEUR_CASE = 20;
+	public static int LARGEUR_CASE = FenetreSnake.LARGEUR_FENETRE/Map.getNbCaseL();
 	
 	
 	

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 public class Map {
 	
 	private static int nbCaseH = 200;
-	private static int nbCaseL = 30;
+	private static int nbCaseL = 20;
+	public static final int NB_CASE_H_SHOW = 30;
 	
 	private Case[][] lesCases;
 	private int startY;
@@ -12,7 +13,7 @@ public class Map {
 	
 	public Map(){
 		
-		this.endY = Map.nbCaseH;
+		this.endY = this.startY + Map.NB_CASE_H_SHOW;
 		this.startY = 0;
 		
 		this.lesCases = new Case[Map.nbCaseL][Map.nbCaseH];
