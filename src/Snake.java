@@ -40,7 +40,7 @@ public class Snake {
 			this.body[i].setActualCase(this.body[i-1].getActualCase());
 		
 		tmp = this.body[0].getActualCase();
-		
+		System.out.println("Snake position : x :"+(tmp.getX()/Case.LARGEUR_CASE)+" Y : "+((tmp.getY()-FenetreSnake.OFFSET_TITLEBAR)/Case.LARGEUR_CASE + this.owner.getMap().getStartY())+" -- "+this.owner.getMap().getEndY());
 		switch(this.direction){
 		case "Left":
 			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)-1][(tmp.getY()-FenetreSnake.OFFSET_TITLEBAR)/Case.LARGEUR_CASE + this.owner.getMap().getStartY()]);
@@ -56,7 +56,7 @@ public class Snake {
 			if((this.owner.getMap().getStartY()>0)&&(this.owner.getMap().getEndY()<Map.getNbCaseH() || (this.body[0].getActualCase().getY()-FenetreSnake.OFFSET_TITLEBAR)/Case.LARGEUR_CASE < FenetreSnake.SNAKE_CENTER_Y))
 				this.owner.updateView("Up");
 			break;
-		case "Down": 
+		case "Down":
 			this.body[0].setActualCase(this.owner.getMap().getLesCases()[(tmp.getX()/Case.LARGEUR_CASE)][((tmp.getY()-FenetreSnake.OFFSET_TITLEBAR)/Case.LARGEUR_CASE)+1 + this.owner.getMap().getStartY()]);
 			
 			// si la carte est tout en BAS ET (que le haut la map est supperrieur a 0 OU que le joueur est en dessous du centre)

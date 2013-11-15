@@ -11,9 +11,9 @@ import javax.swing.JOptionPane;
 public class FenetreSnake extends JFrame implements KeyListener{
 
 	public static final int HAUTEUR_FENETRE = 700;
-	public static final int LARGEUR_FENETRE = 400;
+	public static final int LARGEUR_FENETRE = 800;
 	public static int OFFSET_TITLEBAR =28;
-	public static final int SNAKE_CENTER_Y = 15;
+	public static final int SNAKE_CENTER_Y = Map.NB_CASE_H_SHOW/2;
 	
 	public RenderingThread renderingThread;
 	public UpdateThread updateThread;
@@ -61,13 +61,13 @@ public class FenetreSnake extends JFrame implements KeyListener{
 		
 		this.drawMap();
 		
-		this.buffer.setColor(Color.RED);
+		this.buffer.setColor(Color.ORANGE);
 		
 		this.drawSnake();
 		
 		this.buffer.setColor(Color.GREEN);
 		
-		
+		this.drawObjets();
 		this.strategy.show();
 	}
 	
@@ -75,32 +75,46 @@ public class FenetreSnake extends JFrame implements KeyListener{
 		this.snake.move();
 	}
 	
-	public void drawMap(){
-		
+	////// DRAW OBJETS
+	public void drawObjets(){
 		int x,y,width;
 		
 		width=Case.LARGEUR_CASE;
 		
+		// DRAW OBJET
 		for(int j = this.map.getStartY();j<this.map.getEndY() ; j++)
 			for(int i = 0;i<Map.getNbCaseL() ; i++){
-				
+				x = this.getMap().getLesCases()[i][j].getX();
+				y = this.getMap().getLesCases()[i][j].getY();
+				//si la case a un objet on l'affiche sur une taille de 9 cases (a modifier) mdr
+				if(this.getMap().getLesCases()[i][j].getObjet() != null)
+					this.buffer.drawImage(this.getMap().getLesCases()[i][j].getObjet(), x, y, Case.LARGEUR_CASE*3, Case.LARGEUR_CASE*3, null);
+			}
+	}
+	
+	// DRAW MAP
+	public void drawMap(){
+		int x,y,width;
+		
+		width=Case.LARGEUR_CASE;
+		
+		//DRAW SOL
+		for(int j = this.map.getStartY();j<this.map.getEndY() ; j++)
+			for(int i = 0;i<Map.getNbCaseL() ; i++){		
 				x = this.getMap().getLesCases()[i][j].getX();
 				y = this.getMap().getLesCases()[i][j].getY();
 				
-				if(j%2 == 0)
-					this.buffer.setColor(Color.RED);
-				else
-					this.buffer.setColor(Color.BLUE);
-				
-				
-				this.buffer.drawRect(x, y, width, width);
-			}
+				this.buffer.drawImage(this.getMap().getLesCases()[i][j].getSol(), x, y, Case.LARGEUR_CASE, Case.LARGEUR_CASE, null);
+			}		
 	}
 	
 	public void drawSnake(){
 		
-		for(int i = 0;i<this.snake.getSnakeLength();i++){
-			buffer.fillOval(this.snake.getBody()[i].getActualCase().getX(), this.snake.getBody()[i].getActualCase().getY(), Case.LARGEUR_CASE, Case.LARGEUR_CASE);
+		// draw tete
+		this.buffer.drawImage(this.snake.getBody()[0].getImgTete()[1], this.snake.getBody()[0].getActualCase().getX(), this.snake.getBody()[0].getActualCase().getY(), Case.LARGEUR_CASE, Case.LARGEUR_CASE, null);
+		// draw corps
+		for(int i = 1;i<this.snake.getSnakeLength();i++){
+			this.buffer.drawImage(this.snake.getBody()[i].getImgBody()[1], this.snake.getBody()[i].getActualCase().getX(), this.snake.getBody()[i].getActualCase().getY(), Case.LARGEUR_CASE, Case.LARGEUR_CASE, null);
 		}
 	}
 	
@@ -123,13 +137,12 @@ public class FenetreSnake extends JFrame implements KeyListener{
 				this.map.setStartY(this.map.getStartY()+1);
 				this.map.setEndY(this.map.getEndY()+1);
 			}
-			System.out.println(""+updateCasePositions);
+			
 		}
 		
 		if(updateCasePositions){
 			for(int j = this.map.getStartY();j<this.map.getEndY() ; j++)
 				for(int i = 0;i<Map.getNbCaseL() ; i++){
-					
 					this.getMap().getLesCases()[i][j].setX(Case.LARGEUR_CASE*i);
 					this.getMap().getLesCases()[i][j].setY(Case.LARGEUR_CASE*j + FenetreSnake.OFFSET_TITLEBAR - this.map.getStartY()*Case.LARGEUR_CASE);
 				
