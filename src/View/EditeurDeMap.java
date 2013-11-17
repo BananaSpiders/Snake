@@ -116,7 +116,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 			}
 		});
 		button.setIcon(this.editImage.get("fleure"));
-		button.setBounds(10, 129, 40, 25);
+		button.setBounds(78, 126, 40, 25);
 		panel.add(button);
 		
 		// but herbe
@@ -127,8 +127,85 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 			}
 		});
 		button_1.setIcon(this.editImage.get("herbe"));
-		button_1.setBounds(10, 93, 40, 25);
+		button_1.setBounds(78, 90, 40, 25);
 		panel.add(button_1);
+		
+		// But touf
+		JButton button_2 = new JButton("");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				select.setText("touf");
+			}
+		});
+		button_2.setIcon(this.editImage.get("touf"));
+		button_2.setBounds(193, 90, 40, 25);
+		panel.add(button_2);
+		
+		JLabel lblHerbe = new JLabel("Herbe :");
+		lblHerbe.setBounds(10, 90, 46, 14);
+		panel.add(lblHerbe);
+		
+		JLabel lblFleure = new JLabel("Fleure :");
+		lblFleure.setBounds(10, 127, 46, 14);
+		panel.add(lblFleure);
+		
+		JLabel lblTouf = new JLabel("Touf :");
+		lblTouf.setBounds(147, 90, 46, 14);
+		panel.add(lblTouf);
+		
+		JLabel lblTerre = new JLabel("Terre :");
+		lblTerre.setBounds(147, 127, 46, 14);
+		panel.add(lblTerre);
+		
+		// but terre
+		JButton button_3 = new JButton("");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				select.setText("terre");
+			}
+		});
+		button_3.setIcon(this.editImage.get("terre"));
+		button_3.setBounds(193, 126, 40, 25);
+		panel.add(button_3);
+		
+		// BUT TERRE COINS
+		// HG
+		JButton button_4 = new JButton("");
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				select.setText("terreHG");
+			}
+		});
+		button_4.setBounds(247, 126, 10, 10);
+		panel.add(button_4);
+		// HD
+		JButton button_5 = new JButton("");
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				select.setText("terreHD");
+			}
+		});
+		button_5.setBounds(262, 126, 10, 10);
+		panel.add(button_5);
+		//BG
+		JButton button_6 = new JButton("");
+		button_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				select.setText("terreBD");
+			}
+		});
+		button_6.setBounds(262, 141, 10, 10);
+		panel.add(button_6);
+		// BD
+		JButton button_7 = new JButton("");
+		button_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				select.setText("terreBG");
+			}
+		});
+		button_7.setBounds(247, 141, 10, 10);
+		panel.add(button_7);
+		
 		
 		// panel dessin
 		JPanel panel_2 = new JPanel();
@@ -174,6 +251,12 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	public void loadImage(){
 		this.editImage.put("herbe", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/herbe.gif")));
 		this.editImage.put("fleure", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/fleure.gif")));
+		this.editImage.put("touf", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/touf.gif")));
+		this.editImage.put("terre", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terre.gif")));
+		this.editImage.put("terreHG", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreHG.gif")));
+		this.editImage.put("terreHD", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreHD.gif")));
+		this.editImage.put("terreBG", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreBG.gif")));
+		this.editImage.put("terreBD", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreBD.gif")));
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
