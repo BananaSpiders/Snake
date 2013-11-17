@@ -210,8 +210,8 @@ public class Main extends Thread {
      *  DESSINS
      */
     public void renderGame(Graphics2D g) {
-    	g.setColor(Color.BLACK);
-    	g.fillRect(0, 0, FrameSnake.FRAME_WIDTH , FrameSnake.FRAME_HEIGHT);
+    	/*g.setColor(Color.BLACK);
+    	g.fillRect(0, 0, FrameSnake.FRAME_WIDTH , FrameSnake.FRAME_HEIGHT);*/
 
 		this.drawMap(g);
 		
