@@ -1,6 +1,7 @@
 package Controler;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
@@ -70,7 +71,8 @@ public class Main extends Thread {
     	frame = new FrameSnake(this);
     	frame.addWindowListener(new FrameClose());
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame.setSize(FrameSnake.FRAME_WIDTH * scale, FrameSnake.FRAME_HEIGHT * scale);
+    	frame.getContentPane().setPreferredSize(new Dimension(FrameSnake.FRAME_WIDTH, FrameSnake.FRAME_HEIGHT));
+    	frame.pack();
     	frame.setVisible(true);
     	
     	// Canvas
@@ -218,8 +220,6 @@ public class Main extends Thread {
 		g.setColor(Color.ORANGE);
 		
 		this.drawSnake(g);
-		
-		g.setColor(Color.GREEN);
 		
 		this.drawObjets(g);
 		
