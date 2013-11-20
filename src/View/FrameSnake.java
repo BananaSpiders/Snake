@@ -17,7 +17,7 @@ public class FrameSnake extends JFrame implements KeyListener{
 	 */
 	private Main owner;
 	public static final int FRAME_WIDTH = 400;
-	public static final int FRAME_HEIGHT = 700;
+	public static final int FRAME_HEIGHT = 400;
 	public static final int FRAME_HEIGHT_TITLEBAR = 28;
 	
 	/*

@@ -12,7 +12,7 @@ public class Case {
 	 * Attributs
 	 */
 	// static
-	public static int LARGEUR_CASE = FrameSnake.FRAME_WIDTH / Map.getNbCaseL() ;
+	public static int LARGEUR_CASE = (FrameSnake.FRAME_WIDTH) / Map.getNbCaseL() ;
 	//Variables
 	private int x;
 	private int y;
