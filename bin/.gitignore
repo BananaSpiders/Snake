@@ -1,9 +1,7 @@
-/Main$FrameClose.class
-/Main.class
-/FrameSnake.class
-/Mort
-/images
-/Model
-/View
 /Controler
-/Jeu
+/Model
+/README.md
+/View
+/images
+
+*.db
