@@ -16,6 +16,8 @@ public class Case {
 	//Variables
 	private int x;
 	private int y;
+	private int i;
+	private int j;
 	// Models
 	private Image sol;
 	private Objet objet;
@@ -29,6 +31,8 @@ public class Case {
 		this.y = y;
 		this.sol = image;
 		this.objet = null;
+		this.i = x/Case.LARGEUR_CASE;
+		this.j = y/Case.LARGEUR_CASE;
 	}
 	
 	/**
@@ -36,7 +40,7 @@ public class Case {
 	 */
 	// Ajoute un objet a notre case avec une largeur et hauteur
 	public void makeObjet(Image img, int nbCaseL, int nbCaseH,boolean bloque){
-		this.objet = new Objet(img, nbCaseL, nbCaseH,bloque);
+		this.objet = new Objet(img, nbCaseL, nbCaseH,bloque,this);
 	}
 
 	/**
@@ -72,6 +76,30 @@ public class Case {
 
 	public void setObjet(Objet objet) {
 		this.objet = objet;
+	}
+
+	public static int getLARGEUR_CASE() {
+		return LARGEUR_CASE;
+	}
+
+	public static void setLARGEUR_CASE(int lARGEUR_CASE) {
+		LARGEUR_CASE = lARGEUR_CASE;
+	}
+
+	public int getI() {
+		return i;
+	}
+
+	public void setI(int i) {
+		this.i = i;
+	}
+
+	public int getJ() {
+		return j;
+	}
+
+	public void setJ(int j) {
+		this.j = j;
 	}	
 	
 }

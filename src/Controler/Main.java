@@ -12,7 +12,9 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import Model.Case;
@@ -43,6 +45,8 @@ public class Main extends Thread {
     			.getDefaultScreenDevice()
     			.getDefaultConfiguration();
     
+    
+       
     // Models
     private Map map;
 	private Snake snake;
@@ -71,14 +75,21 @@ public class Main extends Thread {
     	frame = new FrameSnake(this);
     	frame.addWindowListener(new FrameClose());
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame.getContentPane().setPreferredSize(new Dimension(FrameSnake.FRAME_WIDTH, FrameSnake.FRAME_HEIGHT));
+    	frame.getContentPane().setPreferredSize(new Dimension( FrameSnake.GET_TOTAL_WIDTH() , FrameSnake.GET_TOTAL_HEIGHT() ));
     	frame.pack();
     	frame.setVisible(true);
+    	frame.setLayout(null);
+    	
     	
     	// Canvas
     	canvas = new Canvas(config);
-    	canvas.setSize(FrameSnake.FRAME_WIDTH * scale, FrameSnake.FRAME_HEIGHT * scale);
+    	canvas.setSize((FrameSnake.FRAME_WIDTH), (FrameSnake.FRAME_HEIGHT) );
+    	canvas.setBounds(FrameSnake.FRAME_MARGE_LEFT,FrameSnake.FRAME_MARGE_TOP,FrameSnake.FRAME_WIDTH,FrameSnake.FRAME_HEIGHT);
     	frame.add(canvas, 0);
+    	
+    	// Marges Panels
+    	this.frame.initMarges(this.map);
+    	
 
     	// Background & Buffer
     	background = create(FrameSnake.FRAME_WIDTH, FrameSnake.FRAME_HEIGHT, false);
@@ -198,14 +209,16 @@ public class Main extends Thread {
     	if(obj != null){
     		if(!obj.isBloque()){
     			this.snake.move();
-    			System.out.println("Object NON bloquant");
+    			
     		}
-    		System.out.println("Object bloquant");
+    		
     	}
     	else{
     		this.snake.move();
-    		System.out.println(obj);
+    		
     	}
+    	
+    	
     }
 
     /**
@@ -314,7 +327,14 @@ public class Main extends Thread {
 		
 	}
 	
-	// Instancie notre main :)
+	
+	
+	
+	
+	/**
+	 *  Instancie notre main :)
+	 * @param args
+	 */
     public static void main(final String args[]) {
     	new Main();
     }

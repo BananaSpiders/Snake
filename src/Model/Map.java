@@ -16,7 +16,7 @@ public class Map {
 	// Static
 	private static int nbCaseH = 200;
 	private static int nbCaseL = 20;
-	public static final int NB_CASE_H_SHOW = FrameSnake.FRAME_HEIGHT / Case.LARGEUR_CASE;
+	public static final int NB_CASE_H_SHOW = (FrameSnake.FRAME_HEIGHT /*- FrameSnake.FRAME_MARGE_TOP - FrameSnake.FRAME_MARGE_BOTTOM*/) / Case.LARGEUR_CASE;
 	// Variables
 	private int startY;
 	private int endY;
@@ -58,12 +58,22 @@ public class Map {
 				this.lesCases[i][j] = new Case(Case.LARGEUR_CASE*i  ,  Case.LARGEUR_CASE*j ,im);
 				
 				// on ajoute un objet a notre case
-				if( (j==140 || j==Map.nbCaseH-6) && i==Map.nbCaseL/2)
-					this.lesCases[i][j].makeObjet(this.mesImg.get("porte"),3,3,false);// on cree une porte de taille 3/3
-				if(((int)(Math.random() * (950-0) ))==1)
+				if(((int)(Math.random() * (850-0) ))==1){
 					this.lesCases[i][j].makeObjet(this.mesImg.get("gros_rocher"),1,1,true);// on cree un gros rocher de taille 2/2
+				}
 				if(((int)(Math.random() * (550-0) ))==1)
 					this.lesCases[i][j].makeObjet(this.mesImg.get("sapin"),1,1,true);// on cree un sapin de taille 3/4
+				if((j==140 && (i!=10 && i!=11)))
+					this.lesCases[i][j].makeObjet(this.mesImg.get("barriere_bois"),1,1,true);
+				
+				//barrier qui bouge
+				if(j==139 && (i==11 || i==10)){
+					this.lesCases[i][j].makeObjet(this.mesImg.get("barriere_bois"),1,1,true);
+					this.lesCases[i][j].getObjet().setSens_deplacement(1);
+					this.lesCases[i][j].getObjet().setNombre_case_deplacement(1);
+					this.lesCases[i][j].getObjet().move(this);
+				}
+					
 			}
 		
 		
@@ -80,6 +90,8 @@ public class Map {
 	/**
 	 *  METHODES
 	 */
+	
+	
 	/**
 	 *  LOAD METHOD
 	 */
@@ -92,8 +104,18 @@ public class Map {
 			this.mesImg.put("fleure", new ImageIcon(this.getClass().getResource("/images/fleure.gif")).getImage()) ;
 			// objets
 			this.mesImg.put("porte", new ImageIcon(this.getClass().getResource("/images/porte.gif")).getImage()) ;
+			this.mesImg.put("poteau", new ImageIcon(this.getClass().getResource("/images/poteau.gif")).getImage());
+			this.mesImg.put("muraille", new ImageIcon(this.getClass().getResource("/images/muraille.gif")).getImage());
 			this.mesImg.put("gros_rocher", new ImageIcon(this.getClass().getResource("/images/gros_rocher.gif")).getImage()) ;
 			this.mesImg.put("sapin", new ImageIcon(this.getClass().getResource("/images/sapin.gif")).getImage()) ;
+			this.mesImg.put("barriere_bois", new ImageIcon(this.getClass().getResource("/images/barriere_bois.gif")).getImage()) ;
+			
+			// Frame
+			this.mesImg.put("butMenu", new ImageIcon(this.getClass().getResource("/images/butMenu.gif")).getImage()) ;
+			this.mesImg.put("margeRightForet", new ImageIcon(this.getClass().getResource("/images/marge_right.gif")).getImage()) ;
+			this.mesImg.put("margeLeftForet", new ImageIcon(this.getClass().getResource("/images/marge_left.gif")).getImage()) ;
+			this.mesImg.put("margeLR", new ImageIcon(this.getClass().getResource("/images/margeLR.gif")).getImage()) ;
+			this.mesImg.put("margeLRFix", new ImageIcon(this.getClass().getResource("/images/margeLRFix.gif")).getImage()) ;
 		}catch(Exception e){
 			System.out.println("Erreur de chargement des images de la map :"+e);
 		}
@@ -115,7 +137,8 @@ public class Map {
 		
 		return null;
 	}
-
+	
+	
 	/**
 	 *  GETTER & SETTER
 	 */
