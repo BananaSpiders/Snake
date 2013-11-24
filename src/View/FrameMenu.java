@@ -63,17 +63,11 @@ public class FrameMenu extends JFrame {
 		btnJouer.setBounds(135, 338, 173, 55);
 		contentPane.add(btnJouer);
 		
-		JLabel lblSnake = new JLabel("Snake");
-		lblSnake.setForeground(Color.BLACK);
-		lblSnake.setFont(new Font("Tahoma", Font.BOLD, 82));
-		lblSnake.setBounds(86, 0, 292, 188);
-		contentPane.add(lblSnake);
-		
 		JLabel label = new JLabel("");
 		label.setBounds(0, 0, 464, 681);
 		label.setIcon(new ImageIcon(FrameMenu.class.getResource("/images/bg_menu.gif")));
 		contentPane.add(label);
-		System.out.println(FrameSnake.GET_TOTAL_WIDTH()+" "+FrameSnake.GET_TOTAL_HEIGHT());
+		
 	}
 
 }
