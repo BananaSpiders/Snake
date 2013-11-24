@@ -25,7 +25,7 @@ public class UpdateThread extends Thread {
 			try {
 				now = System.currentTimeMillis(); // On récupère le temps au
 				// début de la boucle
-				if ((now - last) > (1000.0 / 7.0)) // Si le laps de temps
+				if ((now - last) > (1000.0 / 20.0)) // Si le laps de temps
 				// ecoule durant la
 				// boucle est plus grand
 				// que le temps espere
