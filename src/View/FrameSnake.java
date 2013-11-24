@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -70,13 +71,17 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		if(e.getKeyCode()==KeyEvent.VK_DOWN){
 			this.owner.getSnake().wayUpdate("Down");
 		}		
-		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == this.butMenu){
-			System.out.println("ok");
+			FrameMenu frame = new FrameMenu();
+			frame.setVisible(true);
+			
+			this.owner.updateThread.stopRunning();
+			this.owner.stopRunning();
+			this.dispose();
 			
 		}				
 	}
@@ -129,6 +134,7 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		
 		int wMenu = 30;
 		this.butMenu = new JButton();
+		this.butMenu.setFocusable(false);
 		butMenu.setIcon(new ImageIcon(this.map.getMesImg().get("butMenu")));
 		butMenu.setPreferredSize(new Dimension(wMenu,wMenu));
 		this.butMenu.addActionListener(this);
@@ -180,6 +186,88 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 	}
 	public static int GET_TOTAL_HEIGHT(){
 		return FrameSnake.FRAME_MARGE_TOP + FrameSnake.FRAME_HEIGHT + FrameSnake.FRAME_MARGE_BOTTOM;
+	}
+
+
+
+	public void setOwner(Main owner) {
+		this.owner = owner;
+	}
+
+	public JPanel getPanel_marge_top() {
+		return panel_marge_top;
+	}
+
+	public void setPanel_marge_top(JPanel panel_marge_top) {
+		this.panel_marge_top = panel_marge_top;
+	}
+
+	public JPanel getPanel_marge_bottom() {
+		return panel_marge_bottom;
+	}
+
+	public void setPanel_marge_bottom(JPanel panel_marge_bottom) {
+		this.panel_marge_bottom = panel_marge_bottom;
+	}
+
+	public JPanel getPanel_marge_left() {
+		return panel_marge_left;
+	}
+
+	public void setPanel_marge_left(JPanel panel_marge_left) {
+		this.panel_marge_left = panel_marge_left;
+	}
+
+	public JPanel getPanel_marge_right() {
+		return panel_marge_right;
+	}
+
+	public void setPanel_marge_right(JPanel panel_marge_right) {
+		this.panel_marge_right = panel_marge_right;
+	}
+
+	public Map getMap() {
+		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
+	}
+
+	public JButton getButMenu() {
+		return butMenu;
+	}
+
+	public void setButMenu(JButton butMenu) {
+		this.butMenu = butMenu;
+	}
+
+	public static int getFrameWidth() {
+		return FRAME_WIDTH;
+	}
+
+	public static int getFrameHeight() {
+		return FRAME_HEIGHT;
+	}
+
+	public static int getFrameHeightTitlebar() {
+		return FRAME_HEIGHT_TITLEBAR;
+	}
+
+	public static int getFrameMargeRight() {
+		return FRAME_MARGE_RIGHT;
+	}
+
+	public static int getFrameMargeLeft() {
+		return FRAME_MARGE_LEFT;
+	}
+
+	public static int getFrameMargeTop() {
+		return FRAME_MARGE_TOP;
+	}
+
+	public static int getFrameMargeBottom() {
+		return FRAME_MARGE_BOTTOM;
 	}
 
 	

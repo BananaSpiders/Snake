@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -21,6 +22,7 @@ import Model.Case;
 import Model.Map;
 import Model.Objet;
 import Model.Snake;
+import Parser.ParserSax;
 import View.FrameSnake;
 
 /**
@@ -64,7 +66,11 @@ public class Main extends Thread {
      */
     public Main() {
     	// Creation des models
-    	this.map = new Map();
+    	//this.map = new Map();
+    	
+    	//On charge la map
+    	this.loadMap("levelTest");
+    	
 		this.snake = new Snake(this);
 		
 		//UpdateThread
@@ -157,6 +163,9 @@ public class Main extends Thread {
     		isRunning = false;
     	}
     }
+    public void stopRunning(){
+    	this.isRunning = false;
+    }
     
     // create a hardware accelerated image
     public final BufferedImage create(final int width, final int height,
@@ -210,6 +219,9 @@ public class Main extends Thread {
     		if(!obj.isBloque()){
     			this.snake.move();
     			
+    		}else{
+    			// on est bloque, on meurt !!!
+    			this.frame.getButMenu().doClick();
     		}
     		
     	}
@@ -281,7 +293,7 @@ public class Main extends Thread {
 	
 	// DRAW SNAKE
 	public void drawSnake(Graphics2D g){
-		
+		System.out.println();
 		// draw tete
 		g.drawImage(this.snake.getBody()[0].getImgTete()[1], this.snake.getBody()[0].getActualCase().getX(), this.snake.getBody()[0].getActualCase().getY(), Case.LARGEUR_CASE, Case.LARGEUR_CASE, null);
 		// draw corps
@@ -327,8 +339,19 @@ public class Main extends Thread {
 		
 	}
 	
-	
-	
+	/**
+	 *  Load la map
+	 */
+	public void loadMap(String nomMap){
+		ParserSax ps = new ParserSax(""+nomMap);
+		
+		if(ps.isMyMapReady()){
+			System.out.println("La map : "+nomMap+" a bien ete chargee.");
+			this.map = ps.myMap;
+		}
+		else
+			System.out.println("Erreur lors du chargement de la map : "+ps.myMap);
+	}
 	
 	
 	/**

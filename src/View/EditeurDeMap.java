@@ -34,10 +34,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Dimension2D;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.SwingConstants;
 
 import Model.Map;
+import Parser.ParserSax;
+
+import java.awt.Font;
 /**
  *  Class Fenetre de l'editeur de map (a developper)
  */
@@ -52,7 +57,9 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	private int POS_X_DRAW = 357;
 	private JTextField textField_1;
 	private HashMap<String, ImageIcon> editImage;
+	private HashMap<ImageIcon, String> retrouveEditImage;
 	private JTextField select;
+	private int nbCaseH;
 
 	/**
 	 * Main test
@@ -74,7 +81,9 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	 * Constructeur
 	 */
 	public EditeurDeMap() {
+		this.nbCaseH = 400;
 		this.editImage = new HashMap<String, ImageIcon>();
+		this.retrouveEditImage = new HashMap<ImageIcon, String>();
 		this.loadImage();
 		
 		this.map = new Map();
@@ -85,7 +94,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 293, 387);
+		panel.setBounds(10, 11, 293, 549);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -116,7 +125,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 			}
 		});
 		button.setIcon(this.editImage.get("fleure"));
-		button.setBounds(78, 126, 40, 25);
+		button.setBounds(78, 164, 40, 25);
 		panel.add(button);
 		
 		// but herbe
@@ -127,7 +136,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 			}
 		});
 		button_1.setIcon(this.editImage.get("herbe"));
-		button_1.setBounds(78, 90, 40, 25);
+		button_1.setBounds(78, 128, 40, 25);
 		panel.add(button_1);
 		
 		// But touf
@@ -138,23 +147,23 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 			}
 		});
 		button_2.setIcon(this.editImage.get("touf"));
-		button_2.setBounds(193, 90, 40, 25);
+		button_2.setBounds(193, 128, 40, 25);
 		panel.add(button_2);
 		
 		JLabel lblHerbe = new JLabel("Herbe :");
-		lblHerbe.setBounds(10, 90, 46, 14);
+		lblHerbe.setBounds(10, 128, 46, 14);
 		panel.add(lblHerbe);
 		
 		JLabel lblFleure = new JLabel("Fleure :");
-		lblFleure.setBounds(10, 127, 46, 14);
+		lblFleure.setBounds(10, 165, 46, 14);
 		panel.add(lblFleure);
 		
 		JLabel lblTouf = new JLabel("Touf :");
-		lblTouf.setBounds(147, 90, 46, 14);
+		lblTouf.setBounds(147, 128, 46, 14);
 		panel.add(lblTouf);
 		
 		JLabel lblTerre = new JLabel("Terre :");
-		lblTerre.setBounds(147, 127, 46, 14);
+		lblTerre.setBounds(147, 165, 46, 14);
 		panel.add(lblTerre);
 		
 		// but terre
@@ -165,7 +174,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 			}
 		});
 		button_3.setIcon(this.editImage.get("terre"));
-		button_3.setBounds(193, 126, 40, 25);
+		button_3.setBounds(193, 164, 40, 25);
 		panel.add(button_3);
 		
 		// BUT TERRE COINS
@@ -176,7 +185,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 				select.setText("terreHG");
 			}
 		});
-		button_4.setBounds(247, 126, 10, 10);
+		button_4.setBounds(247, 164, 10, 10);
 		panel.add(button_4);
 		// HD
 		JButton button_5 = new JButton("");
@@ -185,7 +194,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 				select.setText("terreHD");
 			}
 		});
-		button_5.setBounds(262, 126, 10, 10);
+		button_5.setBounds(262, 164, 10, 10);
 		panel.add(button_5);
 		//BG
 		JButton button_6 = new JButton("");
@@ -194,7 +203,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 				select.setText("terreBD");
 			}
 		});
-		button_6.setBounds(262, 141, 10, 10);
+		button_6.setBounds(262, 179, 10, 10);
 		panel.add(button_6);
 		// BD
 		JButton button_7 = new JButton("");
@@ -203,8 +212,59 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 				select.setText("terreBG");
 			}
 		});
-		button_7.setBounds(247, 141, 10, 10);
+		button_7.setBounds(247, 179, 10, 10);
 		panel.add(button_7);
+		
+		JLabel lblSol = new JLabel("Sol :");
+		lblSol.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblSol.setBounds(10, 92, 81, 25);
+		panel.add(lblSol);
+		
+		JLabel lblObjet = new JLabel("Objet :");
+		lblObjet.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblObjet.setBounds(10, 230, 81, 25);
+		panel.add(lblObjet);
+		
+		JLabel lblTronc = new JLabel("Tronc :");
+		lblTronc.setBounds(10, 276, 58, 14);
+		panel.add(lblTronc);
+		
+		// TRONC
+		JButton button_8 = new JButton("");
+		button_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				select.setText("tronc");
+			}
+		});
+		button_8.setIcon(this.editImage.get("tronc"));
+		button_8.setBounds(78, 272, 40, 25);
+		panel.add(button_8);
+		
+		JButton btnCreer = new JButton("Creer");
+		btnCreer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				serialiseLaMap();
+			}
+		});
+		btnCreer.setBounds(194, 515, 89, 23);
+		panel.add(btnCreer);
+		
+		JLabel lblPortailleBois = new JLabel("Barriere Bois :");
+		lblPortailleBois.setBounds(147, 276, 86, 14);
+		panel.add(lblPortailleBois);
+		
+		
+		//barriere_bois
+		JButton button_9 = new JButton("");
+		button_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				select.setText("barriere_bois");
+			}
+		});
+		button_9.setIcon(this.editImage.get("barriere_bois"));
+		button_9.setBounds(227, 272, 40, 25);
+		panel.add(button_9);
 		
 		
 		// panel dessin
@@ -228,9 +288,9 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		panel_1.setLayout(gbl_panel_1);
 
 		
-		this.lesCases = new JButton[Map.getNbCaseL()][Map.getNbCaseH()];
+		this.lesCases = new JButton[Map.getNbCaseL()][this.nbCaseH];
 		
-        for(int j=0; j<Map.getNbCaseH();j++){
+        for(int j=0; j<this.nbCaseH;j++){
         	for(int i=0;i<Map.getNbCaseL();i++){
         		this.lesCases[i][j] = new JButton(this.editImage.get("herbe"));
         		this.lesCases[i][j].setPreferredSize(new Dimension(20,20));
@@ -257,6 +317,60 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		this.editImage.put("terreHD", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreHD.gif")));
 		this.editImage.put("terreBG", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreBG.gif")));
 		this.editImage.put("terreBD", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreBD.gif")));
+		this.editImage.put("barriere_bois", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/barriere_bois.gif")));
+		this.editImage.put("tronc", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/tronc.gif")));
+		this.retrouveLeNomDesImages();
+	}
+	
+	public void retrouveLeNomDesImages(){
+		
+		Set cles = this.editImage.keySet();
+		Iterator it = cles.iterator();
+		while (it.hasNext()){
+		   Object cle = it.next(); 
+		   ImageIcon valeur = this.editImage.get(cle);
+		   this.retrouveEditImage.put(valeur, cle+"");
+		   
+		}
+	}
+	
+	/**
+	 *  Serialise la map
+	 */
+	public void serialiseLaMap(){
+		// on redeffini la hauteure
+		Map.setNbCaseH(this.nbCaseH);
+		// on instancie la map
+		
+		Map mapASerialiser = new Map();
+		// on lui donne un nom
+		if(this.textField.getText() != "" && this.textField.getText() != null)
+			mapASerialiser.setName(this.textField.getText());
+		else
+			mapASerialiser.setName("defaut");
+		// on rempli ses cases
+		for(int i=0; i<Map.getNbCaseL(); i++){
+			for(int j=0; j<Map.getNbCaseH(); j++){
+				String img = this.retrouveEditImage.get(this.lesCases[i][j].getIcon());
+				// on determine si cest un sol ou objet
+				if(isSol(img)){
+					mapASerialiser.getLesCases()[i][j].setSol(this.map.getMesImg().get(img));
+				}else{
+					mapASerialiser.getLesCases()[i][j].makeObjet(this.map.getMesImg().get(img), 1, 1, true);
+				}
+			}
+			
+		}
+		
+		// on envoi tout ca a la classe Parseusse qui se demerdera
+		ParserSax.SerialiseThisMap(mapASerialiser);
+	}
+	
+	public boolean isSol(String img){
+		switch(img){
+			case "tronc": case "barriere_bois": return false;	
+			default: return true;
+		}
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -269,7 +383,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		for(int j=0; j<Map.getNbCaseH();j++){
+		for(int j=0; j<this.nbCaseH;j++){
 			for(int i=0;i<Map.getNbCaseL();i++){
 				if(e.getSource() == this.lesCases[i][j]){
 					// ACTION au moment du clique sur une case
@@ -284,7 +398,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		if(this.mousePressed){
-			for(int j=0; j<Map.getNbCaseH();j++){
+			for(int j=0; j<this.nbCaseH;j++){
 				for(int i=0;i<Map.getNbCaseL();i++){
 					if(e.getSource() == this.lesCases[i][j]){
 						// ACTION au moment du clique sur une case

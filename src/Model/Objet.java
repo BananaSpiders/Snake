@@ -73,7 +73,6 @@ public class Objet {
 			// on recupere la case d'a cote
 			int iNext = this.objet.owner.getI() + this.objet.getSens_deplacement() ;
 			int jNext = this.objet.owner.getJ();
-			System.out.println(iNext +" "+ Map.getNbCaseL());
 			
 			// si on est  sur un bord ou on touche un autre objet on change de sens
 			if( (iNext < 0 || iNext >= Map.getNbCaseL()) || (this.map.getLesCases()[iNext][jNext].getObjet() != null) ){

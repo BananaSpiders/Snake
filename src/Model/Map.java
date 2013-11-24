@@ -14,12 +14,13 @@ public class Map {
 	 *  ATTRIBUTS
 	 */
 	// Static
-	private static int nbCaseH = 200;
+	private static int nbCaseH = 50;
 	private static int nbCaseL = 20;
 	public static final int NB_CASE_H_SHOW = (FrameSnake.FRAME_HEIGHT /*- FrameSnake.FRAME_MARGE_TOP - FrameSnake.FRAME_MARGE_BOTTOM*/) / Case.LARGEUR_CASE;
 	// Variables
 	private int startY;
 	private int endY;
+	private String name;
 	// Models
 	private Case[][] lesCases;
 	// Listes
@@ -36,44 +37,37 @@ public class Map {
 		this.startY = this.endY- Map.NB_CASE_H_SHOW;
 		
 		this.lesCases = new Case[Map.nbCaseL][Map.nbCaseH];
-		
 		// ON CHARGE ET INITIALISE LA MAP ICI
 		for(int j = 0;j<Map.nbCaseH;j++)
 			for(int i = 0;i<Map.nbCaseL;i++){
 				// Par defaut la map est remplie d'herbe
 				Image im = this.mesImg.get("herbe");
-				
-				//on met des objets a la main au pif pour exemple
-				
-				if(((int)(Math.random() * (200-0) ))==1)
-					im = this.mesImg.get("rocher");
-				
+				/*
+				//on met des objets a la main au pif pour exemple				
 				if(((int)(Math.random() * (150-0) ))==1)
 					im = this.mesImg.get("touf");
 				
 				if( (j==Map.nbCaseH-7 ) ||(j==Map.nbCaseH-8 && i%2==0) || (j==Map.nbCaseH-9 && i%3==0) ||(j==Map.nbCaseH-10 && i%4==0) || ((int)(Math.random() * (650-0) ))==1)
 					im = this.mesImg.get("fleure");
-				
+				*/
 				// on ajoute l'image recupere a notre case
 				this.lesCases[i][j] = new Case(Case.LARGEUR_CASE*i  ,  Case.LARGEUR_CASE*j ,im);
 				
 				// on ajoute un objet a notre case
-				if(((int)(Math.random() * (850-0) ))==1){
-					this.lesCases[i][j].makeObjet(this.mesImg.get("gros_rocher"),1,1,true);// on cree un gros rocher de taille 2/2
-				}
-				if(((int)(Math.random() * (550-0) ))==1)
-					this.lesCases[i][j].makeObjet(this.mesImg.get("sapin"),1,1,true);// on cree un sapin de taille 3/4
+				/*if(((int)(Math.random() * (550-0) ))==1)
+					this.lesCases[i][j].makeObjet(this.mesImg.get("tronc"),1,1,true);// on cree un sapin de taille 3/4
 				if((j==140 && (i!=10 && i!=11)))
 					this.lesCases[i][j].makeObjet(this.mesImg.get("barriere_bois"),1,1,true);
 				
-				//barrier qui bouge
+				//barrieres qui bouge
 				if(j==139 && (i==11 || i==10)){
 					this.lesCases[i][j].makeObjet(this.mesImg.get("barriere_bois"),1,1,true);
+					this.lesCases[i][j].getObjet().setMoveDelay(2000);
 					this.lesCases[i][j].getObjet().setSens_deplacement(1);
 					this.lesCases[i][j].getObjet().setNombre_case_deplacement(1);
 					this.lesCases[i][j].getObjet().move(this);
 				}
-					
+					*/
 			}
 		
 		
@@ -102,6 +96,11 @@ public class Map {
 			this.mesImg.put("rocher", new ImageIcon(this.getClass().getResource("/images/rocher.gif")).getImage()) ;
 			this.mesImg.put("touf", new ImageIcon(this.getClass().getResource("/images/touf.gif")).getImage()) ;
 			this.mesImg.put("fleure", new ImageIcon(this.getClass().getResource("/images/fleure.gif")).getImage()) ;
+			this.mesImg.put("terre", new ImageIcon(this.getClass().getResource("/images/terre.gif")).getImage()) ;
+			this.mesImg.put("terreHG", new ImageIcon(this.getClass().getResource("/images/terreHG.gif")).getImage()) ;
+			this.mesImg.put("terreHD", new ImageIcon(this.getClass().getResource("/images/terreHD.gif")).getImage()) ;
+			this.mesImg.put("terreBG", new ImageIcon(this.getClass().getResource("/images/terreBG.gif")).getImage()) ;
+			this.mesImg.put("terreBD", new ImageIcon(this.getClass().getResource("/images/terreBD.gif")).getImage()) ;
 			// objets
 			this.mesImg.put("porte", new ImageIcon(this.getClass().getResource("/images/porte.gif")).getImage()) ;
 			this.mesImg.put("poteau", new ImageIcon(this.getClass().getResource("/images/poteau.gif")).getImage());
@@ -109,6 +108,7 @@ public class Map {
 			this.mesImg.put("gros_rocher", new ImageIcon(this.getClass().getResource("/images/gros_rocher.gif")).getImage()) ;
 			this.mesImg.put("sapin", new ImageIcon(this.getClass().getResource("/images/sapin.gif")).getImage()) ;
 			this.mesImg.put("barriere_bois", new ImageIcon(this.getClass().getResource("/images/barriere_bois.gif")).getImage()) ;
+			this.mesImg.put("tronc", new ImageIcon(this.getClass().getResource("/images/tronc.gif")).getImage()) ;
 			
 			// Frame
 			this.mesImg.put("butMenu", new ImageIcon(this.getClass().getResource("/images/butMenu.gif")).getImage()) ;
@@ -186,6 +186,21 @@ public class Map {
 	}
 	public void setMesImg(HashMap<String, Image> mesImg) {
 		this.mesImg = mesImg;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public static int getNbCaseHShow() {
+		return NB_CASE_H_SHOW;
 	}
 	
 	
