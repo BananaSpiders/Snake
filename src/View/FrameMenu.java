@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -20,7 +21,10 @@ import java.awt.event.ActionEvent;
 public class FrameMenu extends JFrame {
 
 	private JPanel contentPane;
-
+	private int bg_width;
+	private int bg_height;
+	private ImageIcon bg_image;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -41,14 +45,18 @@ public class FrameMenu extends JFrame {
 	 * Create the frame.
 	 */
 	public FrameMenu() {
+		bg_image = new ImageIcon(FrameMenu.class.getResource("/images/bg_menu.gif"));
+		bg_width = bg_image.getIconWidth();
+		bg_height = bg_image.getIconHeight();
+		
 		setResizable(false);
 		setTitle("Snake - Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, FrameSnake.GET_TOTAL_WIDTH(), FrameSnake.GET_TOTAL_HEIGHT());
+		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setContentPane(contentPane);
+		this.getContentPane().setPreferredSize(new Dimension(bg_width,bg_height));
 		
 		JButton btnJouer = new JButton("Jouer");
 		btnJouer.setFocusable(false);
@@ -64,10 +72,10 @@ public class FrameMenu extends JFrame {
 		contentPane.add(btnJouer);
 		
 		JLabel label = new JLabel("");
-		label.setBounds(0, 0, 464, 681);
-		label.setIcon(new ImageIcon(FrameMenu.class.getResource("/images/bg_menu.gif")));
+		label.setIcon(bg_image);
+		label.setBounds(0, 0, bg_width, bg_height);
 		contentPane.add(label);
-		
+		this.pack();
 	}
 
 }
