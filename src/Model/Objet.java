@@ -17,9 +17,10 @@ public class Objet {
 	private boolean bloque;
 	private int nombre_case_deplacement;
 	private int sens_deplacement;
+	private long moveDelay;
 	private int nombre_case_reste_deplacement;
 	private Case owner;
-	private long moveDelay;
+	
 	
 	/*
 	 * Constructeurs

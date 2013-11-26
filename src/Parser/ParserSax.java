@@ -85,8 +85,15 @@ public class ParserSax {
 			String x = attributes.getValue("x");
 			String y = attributes.getValue("y");
 			String sol = attributes.getValue("type");
+			if(sol!=null && sol.equals("null"))
+				sol=null;
 			String objet = attributes.getValue("type");
+			if(objet!=null &&  objet.equals("null"))
+				objet=null;
 			String bloquant = attributes.getValue("bloquant");
+			String nombre_case_deplacement = attributes.getValue("nombre_case_deplacement");
+			String sens_deplacement = attributes.getValue("sens_deplacement");
+			String moveDelay = attributes.getValue("moveDelay");
 
 			// on recupere les attributs pricipaux de la map
 			if(str.equals("MAP")){
@@ -119,7 +126,7 @@ public class ParserSax {
 				inSol = true;
 			if(str.equals("OBJET"))
 				inObjet = true;
-
+	
 			// reaction si entree
 
 			// on remli notre carte ICI
@@ -138,8 +145,13 @@ public class ParserSax {
 				// si objet, on rempli
 				if(inObjet){
 					if(objet != null){
-
+						
 						this.map.getLesCases()[i][j].makeObjet(this.map.getMesImg().get(objet), 1, 1, Boolean.parseBoolean(bloquant));
+						
+						this.map.getLesCases()[i][j].getObjet().setNombre_case_deplacement(Integer.parseInt(nombre_case_deplacement));
+						this.map.getLesCases()[i][j].getObjet().setSens_deplacement(Integer.parseInt(sens_deplacement));
+						this.map.getLesCases()[i][j].getObjet().setMoveDelay(Integer.parseInt(moveDelay));
+						this.map.getLesCases()[i][j].getObjet().move(this.map);
 					}
 				}
 			}
@@ -222,9 +234,14 @@ public class ParserSax {
 					String sol = "<sol type='"+ParserSax.getNameOfImage(map.getLesCases()[i][j].getSol(),map)+"' />";
 					texte+=sol;
 					
-					String objet = "<objet type='null' bloquant='false' />";
-					if(map.getLesCases()[i][j].getObjet() != null)
-						objet = "<objet type='"+ParserSax.getNameOfImage(map.getLesCases()[i][j].getObjet().getImage(),map)+"' bloquant='"+map.getLesCases()[i][j].getObjet().isBloque()+"'/>";
+					String objet = "<objet type='null' bloquant='false'  nombre_case_deplacement='0' sens_deplacement='0' moveDelay='0' />";
+					if(map.getLesCases()[i][j].getObjet() != null){
+						objet = "<objet type='"+ParserSax.getNameOfImage(map.getLesCases()[i][j].getObjet().getImage(),map)+"' "
+								+ "bloquant='"+map.getLesCases()[i][j].getObjet().isBloque()+"' "
+										+ "nombre_case_deplacement='"+map.getLesCases()[i][j].getObjet().getNombre_case_deplacement()+"' "
+												+ "sens_deplacement='"+map.getLesCases()[i][j].getObjet().getSens_deplacement()+"'"
+														+ " moveDelay='"+map.getLesCases()[i][j].getObjet().getMoveDelay()+"' />";
+					}
 					texte+=objet;
 					
 					String endLigne = "</ligne>";

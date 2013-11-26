@@ -14,11 +14,13 @@ import java.awt.GridLayout;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JToggleButton.ToggleButtonModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ImageIcon;
 
@@ -39,10 +41,13 @@ import java.util.Set;
 
 import javax.swing.SwingConstants;
 
+import Model.EditeurCase;
 import Model.Map;
 import Parser.ParserSax;
 
 import java.awt.Font;
+
+import javax.swing.JToggleButton;
 /**
  *  Class Fenetre de l'editeur de map (a developper)
  */
@@ -51,15 +56,15 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	 *  ATTRIBUTS
 	 */
 	private JTextField textField;
-	private JButton[][] lesCases;
+	private EditeurCase[][] lesCases;
 	private Map map;
 	private boolean mousePressed = false;
 	private int POS_X_DRAW = 357;
 	private JTextField textField_1;
 	private HashMap<String, ImageIcon> editImage;
-	private HashMap<ImageIcon, String> retrouveEditImage;
 	private JTextField select;
 	private int nbCaseH;
+	private JToggleButton tglbtnBouge;
 
 	/**
 	 * Main test
@@ -81,9 +86,9 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	 * Constructeur
 	 */
 	public EditeurDeMap() {
-		this.nbCaseH = 400;
+		this.nbCaseH = 100;
 		this.editImage = new HashMap<String, ImageIcon>();
-		this.retrouveEditImage = new HashMap<ImageIcon, String>();
+		
 		this.loadImage();
 		
 		this.map = new Map();
@@ -266,6 +271,11 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		button_9.setBounds(227, 272, 40, 25);
 		panel.add(button_9);
 		
+		// Togggle Bouton BOUGE
+		this.tglbtnBouge = new JToggleButton("Bouge");
+		this.tglbtnBouge.setBounds(78, 234, 71, 23);
+		panel.add(this.tglbtnBouge);
+		
 		
 		// panel dessin
 		JPanel panel_2 = new JPanel();
@@ -287,21 +297,23 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 
-		
-		this.lesCases = new JButton[Map.getNbCaseL()][this.nbCaseH];
+		//////////////////////
+		//	Init le tableau de cases
+		//////////////////////
+		this.lesCases = new EditeurCase[Map.getNbCaseL()][this.nbCaseH];
 		
         for(int j=0; j<this.nbCaseH;j++){
         	for(int i=0;i<Map.getNbCaseL();i++){
-        		this.lesCases[i][j] = new JButton(this.editImage.get("herbe"));
-        		this.lesCases[i][j].setPreferredSize(new Dimension(20,20));
+        		this.lesCases[i][j] = new EditeurCase("herbe",new JButton(this.editImage.get("herbe")),false);
+        		this.lesCases[i][j].getButton().setPreferredSize(new Dimension(20,20));
         		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
         		gbc_btnNewButton.insets = new Insets(0, 0, 0, 0);
         		gbc_btnNewButton.gridx = i;
         		gbc_btnNewButton.gridy = j;
         		gbc_btnNewButton.weightx = 0;
-        		panel_1.add(this.lesCases[i][j], gbc_btnNewButton);
-        		this.lesCases[i][j].addActionListener(this);
-        		this.lesCases[i][j].addMouseListener(this);
+        		panel_1.add(this.lesCases[i][j].getButton(), gbc_btnNewButton);
+        		this.lesCases[i][j].getButton().addActionListener(this);
+        		this.lesCases[i][j].getButton().addMouseListener(this);
         	}
         }
 
@@ -319,19 +331,6 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		this.editImage.put("terreBD", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreBD.gif")));
 		this.editImage.put("barriere_bois", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/barriere_bois.gif")));
 		this.editImage.put("tronc", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/tronc.gif")));
-		this.retrouveLeNomDesImages();
-	}
-	
-	public void retrouveLeNomDesImages(){
-		
-		Set cles = this.editImage.keySet();
-		Iterator it = cles.iterator();
-		while (it.hasNext()){
-		   Object cle = it.next(); 
-		   ImageIcon valeur = this.editImage.get(cle);
-		   this.retrouveEditImage.put(valeur, cle+"");
-		   
-		}
 	}
 	
 	/**
@@ -351,27 +350,27 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		// on rempli ses cases
 		for(int i=0; i<Map.getNbCaseL(); i++){
 			for(int j=0; j<Map.getNbCaseH(); j++){
-				String img = this.retrouveEditImage.get(this.lesCases[i][j].getIcon());
+				
+				String img = this.lesCases[i][j].getImgName();
+				
 				// on determine si cest un sol ou objet
-				if(isSol(img)){
+				if(!this.lesCases[i][j].isObjet()){
 					mapASerialiser.getLesCases()[i][j].setSol(this.map.getMesImg().get(img));
 				}else{
 					mapASerialiser.getLesCases()[i][j].makeObjet(this.map.getMesImg().get(img), 1, 1, true);
+					mapASerialiser.getLesCases()[i][j].getObjet().setNombre_case_deplacement(this.lesCases[i][j].getNombre_case_deplacement());
+					mapASerialiser.getLesCases()[i][j].getObjet().setSens_deplacement(this.lesCases[i][j].getSens_deplacement());
+					mapASerialiser.getLesCases()[i][j].getObjet().setMoveDelay(this.lesCases[i][j].getMoveDelay());
 				}
 			}
 			
 		}
 		
-		// on envoi tout ca a la classe Parseusse qui se demerdera
+		// on envoi tout ca a la classe Parseuse qui se demerdera
 		ParserSax.SerialiseThisMap(mapASerialiser);
 	}
 	
-	public boolean isSol(String img){
-		switch(img){
-			case "tronc": case "barriere_bois": return false;	
-			default: return true;
-		}
-	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println(e.getSource());
@@ -383,12 +382,12 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		
 		for(int j=0; j<this.nbCaseH;j++){
 			for(int i=0;i<Map.getNbCaseL();i++){
-				if(e.getSource() == this.lesCases[i][j]){
+				if(e.getSource() == this.lesCases[i][j].getButton()){
 					// ACTION au moment du clique sur une case
-					this.lesCases[i][j].setIcon(this.editImage.get(this.select.getText()+""));
-					
+					this.assigneNouvelleImage(this.lesCases[i][j]);
 				}
 			}
 		}
@@ -400,16 +399,91 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		if(this.mousePressed){
 			for(int j=0; j<this.nbCaseH;j++){
 				for(int i=0;i<Map.getNbCaseL();i++){
-					if(e.getSource() == this.lesCases[i][j]){
+					if(e.getSource() == this.lesCases[i][j].getButton()){
 						// ACTION au moment du clique sur une case
-						this.lesCases[i][j].setIcon(this.editImage.get(this.select.getText()+""));
-						
+						this.assigneNouvelleImage(this.lesCases[i][j]);
 					}
 				}
 			}
 		}
 	}
 
+	
+	
+	
+	
+	// Assigne une nouvelle image a la case
+	public void assigneNouvelleImage(EditeurCase editCase){
+		// donne l'image
+		editCase.getButton().setIcon(this.editImage.get(this.select.getText()+""));
+		// donne le nom
+		editCase.setImgName(this.select.getText());
+		// dit si cest une imgae objet ou non
+		editCase.setObjet(this.isObjet(this.select.getText()));
+		// si cest un objet et on a voulue qu'il bouge
+		if(this.isObjet(this.select.getText()))
+			if(tglbtnBouge.isSelected()){
+				
+				// on recupere les information sur le deplacement voulu
+				int nombre_case_deplacement = 1;
+				int sens_deplacement = 1;
+				int moveDelay = 1000;
+				boolean nbTotal = true;
+				do{
+					try{
+						nbTotal=true;
+						nombre_case_deplacement = Integer.parseInt(JOptionPane.showInputDialog(this, "Donnez le nombre total de case de deplacement", 1));
+						
+						boolean sensDep = true;
+						do{
+							try{
+								sensDep = true;
+								sens_deplacement = Integer.parseInt(JOptionPane.showInputDialog(this, "Donnez le sens de deplacement initial (droite : 1/rien : 0/gauche : -1)", 1));
+								
+								boolean moveDel = true;
+								do{
+									try{
+										moveDel = true;
+										moveDelay = Integer.parseInt(JOptionPane.showInputDialog(this, "Donnez le temps en milliseconde de deplacement de l'objet (cae par case)", 1000));
+									}catch(Exception e){
+										moveDel = false;
+									}
+								}while(!moveDel);
+							}catch(Exception e){
+								sensDep = false;
+							}						
+						}while(!sensDep);
+					}catch(Exception e){
+						nbTotal = false;
+					}
+				}while(!nbTotal);
+				
+				// on donne les infos trouve a la case
+				editCase.setNombre_case_deplacement(nombre_case_deplacement);
+				editCase.setSens_deplacement(sens_deplacement);
+				editCase.setMoveDelay(moveDelay);
+				
+				// on colori larriere de la case pour la reperer
+				editCase.getButton().setBackground(Color.RED);
+				System.out.println(sens_deplacement);
+			}
+	}
+	
+	
+	
+	
+	// test si le string est un objet ou non
+	public boolean isObjet(String str){
+		switch(str){
+			case "tronc" : case "barriere_bois" : return true;
+			
+			default : return false;
+		}
+	}
+	
+	
+	
+	
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub

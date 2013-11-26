@@ -69,7 +69,7 @@ public class Main extends Thread {
     	//this.map = new Map();
     	
     	//On charge la map
-    	this.loadMap("levelTest");
+    	this.loadMap("bo");
     	
 		this.snake = new Snake(this);
 		
@@ -220,7 +220,7 @@ public class Main extends Thread {
     			this.snake.move();
     			
     		}else{
-    			// on est bloque, on meurt !!!
+    			// BLOQUE -> MEURT !!!!!
     			this.frame.getButMenu().doClick();
     		}
     		
