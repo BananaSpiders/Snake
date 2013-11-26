@@ -69,7 +69,7 @@ public class Main extends Thread {
     	//this.map = new Map();
     	
     	//On charge la map
-    	this.loadMap(""+mapToLoad);
+    	this.loadMap(mapToLoad);
     	
 		this.snake = new Snake(this);
 		
@@ -157,6 +157,9 @@ public class Main extends Thread {
      *  Graphic Method
      */
     // Ferme la fenetre
+    
+    
+    
     private class FrameClose extends WindowAdapter {
     	@Override
     	public void windowClosing(final WindowEvent e) {
@@ -214,23 +217,21 @@ public class Main extends Thread {
     	// on recupere l'objet de cette case
     	Objet obj = c.getObjet();
     	
-    	// si il n'est pas null on regade si il est bloquand, si il est nul, on peut bouger, ca veut dire qu'il ny en a pas
+    	// si il n'est pas null on regarde si il est bloquant, si il est null, on peut bouger car pas d'objet
     	if(obj != null){
     		if(!obj.isBloque()){
     			this.snake.move();
     			
     		}else{
     			// BLOQUE -> MEURT !!!!!
+    			this.isRunning = false;
     			this.frame.getButMenu().doClick();
     		}
     		
     	}
     	else{
     		this.snake.move();
-    		
     	}
-    	
-    	
     }
 
     /**
@@ -359,7 +360,7 @@ public class Main extends Thread {
 	 * @param args
 	 */
     public static void main(final String args[]) {
-    	new Main("level1");
+    	
     }
 
     /**
