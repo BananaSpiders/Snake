@@ -64,12 +64,12 @@ public class Main extends Thread {
     /**
      *  CONSTRUCTEUR, initialisations
      */
-    public Main() {
+    public Main(String mapToLoad) {
     	// Creation des models
     	//this.map = new Map();
     	
     	//On charge la map
-    	this.loadMap("bo");
+    	this.loadMap(""+mapToLoad);
     	
 		this.snake = new Snake(this);
 		
@@ -359,7 +359,7 @@ public class Main extends Thread {
 	 * @param args
 	 */
     public static void main(final String args[]) {
-    	new Main();
+    	new Main("level1");
     }
 
     /**

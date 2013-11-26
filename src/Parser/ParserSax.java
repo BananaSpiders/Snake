@@ -151,7 +151,8 @@ public class ParserSax {
 						this.map.getLesCases()[i][j].getObjet().setNombre_case_deplacement(Integer.parseInt(nombre_case_deplacement));
 						this.map.getLesCases()[i][j].getObjet().setSens_deplacement(Integer.parseInt(sens_deplacement));
 						this.map.getLesCases()[i][j].getObjet().setMoveDelay(Integer.parseInt(moveDelay));
-						this.map.getLesCases()[i][j].getObjet().move(this.map);
+						if(Integer.parseInt(nombre_case_deplacement)>0)
+							this.map.getLesCases()[i][j].getObjet().move(this.map);
 					}
 				}
 			}
