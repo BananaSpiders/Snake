@@ -26,6 +26,7 @@ import javax.swing.ImageIcon;
 
 import java.awt.Color;
 import java.awt.Button;
+import java.awt.Cursor;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -86,16 +87,23 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	 * Constructeur
 	 */
 	public EditeurDeMap() {
-		this.nbCaseH = 100;
+		
+		
+		this.nbCaseH = this.demandeQuelleHauteur();
+		// on dit que la fenetre ce load via un cursor wait
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		this.setTitle("Chargement...");
+		this.setVisible(true);
+		
 		this.editImage = new HashMap<String, ImageIcon>();
 		
 		this.loadImage();
 		
 		this.map = new Map();
 		setResizable(false);
-		setTitle("Editeur de map");
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 50, 800, 600);
+		this.setBounds(100, 50, 800, 600);
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -317,7 +325,9 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
         	}
         }
 
-        
+        // la fenetre c'est loadee
+        this.setTitle("Editeur de map");
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	public void loadImage(){
@@ -331,6 +341,29 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		this.editImage.put("terreBD", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreBD.gif")));
 		this.editImage.put("barriere_bois", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/barriere_bois.gif")));
 		this.editImage.put("tronc", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/tronc.gif")));
+	}
+	/**
+	 * 	Demande la hauteure de la map
+	 */
+	public int demandeQuelleHauteur(){
+		int hauteur = 200;
+		boolean hauteurError = true;
+		
+		do{
+			
+			hauteurError = true;
+			try{
+				
+				hauteur = Integer.parseInt(JOptionPane.showInputDialog(this, "Donnez la hauteur de la map (en nombre de case > 200)", 200));
+				if(hauteur<200)
+					hauteurError = false;
+			}catch(Exception e){
+				hauteurError = false;
+			}
+			
+		}while(!hauteurError);
+		
+		return hauteur;
 	}
 	
 	/**

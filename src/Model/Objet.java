@@ -55,7 +55,8 @@ public class Objet {
 		
 		TimerObjet timerObjet = new TimerObjet(map,this);
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(timerObjet, 0, this.moveDelay);
+		System.out.println(this.moveDelay);
+		timer.scheduleAtFixedRate(timerObjet, 0, 1000);
 	}
 	
 	/**
