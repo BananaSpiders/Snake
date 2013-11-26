@@ -24,6 +24,7 @@ public class Snake {
 	private Main owner;
 	//tableau
 	private SnakePart[] body;
+	private static float snakeSpeed = 1.0f;
 	
 	
 	/**
@@ -198,6 +199,14 @@ public class Snake {
 
 	public void setBody(SnakePart[] body) {
 		this.body = body;
+	}
+
+	public static float getSnakeSpeed() {
+		return snakeSpeed;
+	}
+
+	public static void setSnakeSpeed(float snakeSpeed) {
+		Snake.snakeSpeed = snakeSpeed;
 	}
 	
 	

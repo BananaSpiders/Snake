@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Controler.Main;
+import Controler.UpdateThread;
 import Model.Map;
 
 /*
@@ -82,7 +83,6 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 			this.owner.updateThread.stopRunning();
 			this.owner.stopRunning();
 			this.dispose();
-			
 		}				
 	}
 	
