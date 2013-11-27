@@ -112,10 +112,13 @@ public class Map {
 			
 			// Frame
 			this.mesImg.put("butMenu", new ImageIcon(this.getClass().getResource("/images/butMenu.gif")).getImage()) ;
-			this.mesImg.put("margeRightForet", new ImageIcon(this.getClass().getResource("/images/marge_right.gif")).getImage()) ;
-			this.mesImg.put("margeLeftForet", new ImageIcon(this.getClass().getResource("/images/marge_left.gif")).getImage()) ;
-			this.mesImg.put("margeLR", new ImageIcon(this.getClass().getResource("/images/margeLR.gif")).getImage()) ;
-			this.mesImg.put("margeLRFix", new ImageIcon(this.getClass().getResource("/images/margeLRFix.gif")).getImage()) ;
+			this.mesImg.put("margeCoteDroite", new ImageIcon(this.getClass().getResource("/images/margeCoteDroite.gif")).getImage()) ;
+			this.mesImg.put("margeCoteGauche", new ImageIcon(this.getClass().getResource("/images/margeCoteGauche.gif")).getImage()) ;
+			
+			// BONBON
+			this.mesImg.put("bonbon_red", new ImageIcon(this.getClass().getResource("/images/bonbon_red.gif")).getImage()) ;
+			this.mesImg.put("bonbon_yellow", new ImageIcon(this.getClass().getResource("/images/bonbon_yellow.gif")).getImage()) ;
+			
 		}catch(Exception e){
 			System.out.println("Erreur de chargement des images de la map :"+e);
 		}

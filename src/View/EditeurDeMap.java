@@ -284,6 +284,35 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		this.tglbtnBouge.setBounds(78, 234, 71, 23);
 		panel.add(this.tglbtnBouge);
 		
+		JButton button_10 = new JButton("");
+		button_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				select.setText("bonbon_red");
+			}
+		});
+		button_10.setIcon(this.editImage.get("bonbon_red"));
+		button_10.setBounds(78, 351, 40, 25);
+		panel.add(button_10);
+		
+		JLabel lblRed = new JLabel("Red :");
+		lblRed.setBounds(10, 362, 46, 14);
+		panel.add(lblRed);
+		
+		JLabel lblYellow = new JLabel("Yellow :");
+		lblYellow.setBounds(149, 362, 46, 14);
+		panel.add(lblYellow);
+		
+		JButton button_11 = new JButton("");
+		button_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				select.setText("bonbon_yellow");
+			}
+		});
+		button_11.setIcon(this.editImage.get("bonbon_yellow"));
+		button_11.setBounds(217, 351, 40, 25);
+		panel.add(button_11);
+		
 		
 		// panel dessin
 		JPanel panel_2 = new JPanel();
@@ -341,6 +370,8 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		this.editImage.put("terreBD", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreBD.gif")));
 		this.editImage.put("barriere_bois", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/barriere_bois.gif")));
 		this.editImage.put("tronc", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/tronc.gif")));
+		this.editImage.put("bonbon_red", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/bonbon_red.gif")));
+		this.editImage.put("bonbon_yellow", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/bonbon_yellow.gif")));
 	}
 	/**
 	 * 	Demande la hauteure de la map
@@ -505,7 +536,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	
 	
 	
-	// test si le string est un objet ou non
+	// test si le string est un objet ou non, c'est ici que l'on donne la nature d'un objet.
 	public boolean isObjet(String str){
 		switch(str){
 			case "tronc" : case "barriere_bois" : return true;
