@@ -91,33 +91,23 @@ public class Map {
 	 */
 	public void loadImg(){
 		try{
+			// on parcourt les attributs de association pour charger les images :)
 			// sols
-			this.mesImg.put("herbe", new ImageIcon(this.getClass().getResource("/images/herbe.gif")).getImage()) ;
-			this.mesImg.put("rocher", new ImageIcon(this.getClass().getResource("/images/rocher.gif")).getImage()) ;
-			this.mesImg.put("touf", new ImageIcon(this.getClass().getResource("/images/touf.gif")).getImage()) ;
-			this.mesImg.put("fleure", new ImageIcon(this.getClass().getResource("/images/fleure.gif")).getImage()) ;
-			this.mesImg.put("terre", new ImageIcon(this.getClass().getResource("/images/terre.gif")).getImage()) ;
-			this.mesImg.put("terreHG", new ImageIcon(this.getClass().getResource("/images/terreHG.gif")).getImage()) ;
-			this.mesImg.put("terreHD", new ImageIcon(this.getClass().getResource("/images/terreHD.gif")).getImage()) ;
-			this.mesImg.put("terreBG", new ImageIcon(this.getClass().getResource("/images/terreBG.gif")).getImage()) ;
-			this.mesImg.put("terreBD", new ImageIcon(this.getClass().getResource("/images/terreBD.gif")).getImage()) ;
-			// objets
-			this.mesImg.put("porte", new ImageIcon(this.getClass().getResource("/images/porte.gif")).getImage()) ;
-			this.mesImg.put("poteau", new ImageIcon(this.getClass().getResource("/images/poteau.gif")).getImage());
-			this.mesImg.put("muraille", new ImageIcon(this.getClass().getResource("/images/muraille.gif")).getImage());
-			this.mesImg.put("gros_rocher", new ImageIcon(this.getClass().getResource("/images/gros_rocher.gif")).getImage()) ;
-			this.mesImg.put("sapin", new ImageIcon(this.getClass().getResource("/images/sapin.gif")).getImage()) ;
-			this.mesImg.put("barriere_bois", new ImageIcon(this.getClass().getResource("/images/barriere_bois.gif")).getImage()) ;
-			this.mesImg.put("tronc", new ImageIcon(this.getClass().getResource("/images/tronc.gif")).getImage()) ;
+			for(int i=0; i<Association.Sol.length; i++)
+				this.mesImg.put(Association.Sol[i], new ImageIcon(this.getClass().getResource("/images/"+Association.Sol[i]+".gif")).getImage()) ;
 			
+			// objets
+			for(int i=0; i<Association.Objet.length; i++)
+				this.mesImg.put(Association.Objet[i], new ImageIcon(this.getClass().getResource("/images/"+Association.Objet[i]+".gif")).getImage()) ;
+		
 			// Frame
 			this.mesImg.put("butMenu", new ImageIcon(this.getClass().getResource("/images/butMenu.gif")).getImage()) ;
 			this.mesImg.put("margeCoteDroite", new ImageIcon(this.getClass().getResource("/images/margeCoteDroite.gif")).getImage()) ;
 			this.mesImg.put("margeCoteGauche", new ImageIcon(this.getClass().getResource("/images/margeCoteGauche.gif")).getImage()) ;
 			
 			// BONBON
-			this.mesImg.put("bonbon_red", new ImageIcon(this.getClass().getResource("/images/bonbon_red.gif")).getImage()) ;
-			this.mesImg.put("bonbon_yellow", new ImageIcon(this.getClass().getResource("/images/bonbon_yellow.gif")).getImage()) ;
+			for(int i=0; i<Association.Bonus.length; i++)
+				this.mesImg.put(Association.Bonus[i], new ImageIcon(this.getClass().getResource("/images/"+Association.Bonus[i]+".gif")).getImage()) ;
 			
 		}catch(Exception e){
 			System.out.println("Erreur de chargement des images de la map :"+e);

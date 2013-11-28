@@ -39,8 +39,18 @@ public class Case {
 	 *  METHODE
 	 */
 	// Ajoute un objet a notre case avec une largeur et hauteur
-	public void makeObjet(Image img, int nbCaseL, int nbCaseH,boolean bloque){
-		this.objet = new Objet(img, nbCaseL, nbCaseH,bloque,this);
+	public void makeObjet(String nomImg,Image img, int nbCaseL, int nbCaseH,boolean bloque){
+		boolean isInstanceOfObjet = true;
+		
+		// si c'est un bonus on l'instancie en bonus sinon en objet de base
+		for(int i=0; i<Association.Bonus.length; i++)
+			if(nomImg.equals(Association.Bonus[i])){
+				this.objet = new Bonus(img,this);
+				isInstanceOfObjet = false;
+			}
+		
+		if(isInstanceOfObjet)
+			this.objet = new Objet(img, nbCaseL, nbCaseH,bloque,this);
 	}
 
 	/**

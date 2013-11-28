@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import Controler.Main;
+import Model.Association;
 
 import java.awt.Font;
 import java.awt.Color;
@@ -55,6 +56,7 @@ public class FrameMenu extends JFrame {
 		bg_image = new ImageIcon(FrameMenu.class.getResource("/images/bg_menu.gif"));
 		bg_width = bg_image.getIconWidth();
 		bg_height = bg_image.getIconHeight();
+		
 		
 		setResizable(false);
 		setTitle("Snake - Menu");

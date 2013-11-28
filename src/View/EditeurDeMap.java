@@ -42,6 +42,7 @@ import java.util.Set;
 
 import javax.swing.SwingConstants;
 
+import Model.Association;
 import Model.EditeurCase;
 import Model.Map;
 import Parser.ParserSax;
@@ -421,7 +422,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 				if(!this.lesCases[i][j].isObjet()){
 					mapASerialiser.getLesCases()[i][j].setSol(this.map.getMesImg().get(img));
 				}else{
-					mapASerialiser.getLesCases()[i][j].makeObjet(this.map.getMesImg().get(img), 1, 1, true);
+					mapASerialiser.getLesCases()[i][j].makeObjet(img,this.map.getMesImg().get(img), 1, 1, true);
 					mapASerialiser.getLesCases()[i][j].getObjet().setNombre_case_deplacement(this.lesCases[i][j].getNombre_case_deplacement());
 					mapASerialiser.getLesCases()[i][j].getObjet().setSens_deplacement(this.lesCases[i][j].getSens_deplacement());
 					mapASerialiser.getLesCases()[i][j].getObjet().setMoveDelay(this.lesCases[i][j].getMoveDelay());
@@ -484,6 +485,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		editCase.setImgName(this.select.getText());
 		// dit si cest une imgae objet ou non
 		editCase.setObjet(this.isObjet(this.select.getText()));
+		
 		// si cest un objet et on a voulue qu'il bouge
 		if(this.isObjet(this.select.getText()))
 			if(tglbtnBouge.isSelected()){
@@ -538,11 +540,13 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	
 	// test si le string est un objet ou non, c'est ici que l'on donne la nature d'un objet.
 	public boolean isObjet(String str){
-		switch(str){
-			case "tronc" : case "barriere_bois" : return true;
-			
-			default : return false;
-		}
+		
+		for(int i=0; i< Association.getObjetAndChildren().length; i++)
+			if(str.equals(Association.getObjetAndChildren()[i]))
+				return true;
+		
+		return false;
+		
 	}
 	
 	
