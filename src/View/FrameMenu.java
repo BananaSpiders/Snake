@@ -66,6 +66,7 @@ public class FrameMenu extends JFrame {
 		this.getContentPane().setPreferredSize(new Dimension(bg_width,bg_height));
 		
 		JButton btnJouer = new JButton("Jouer");
+		btnJouer.setForeground(new Color(0, 0, 0));
 		btnJouer.setFocusable(false);
 		btnJouer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -75,7 +76,7 @@ public class FrameMenu extends JFrame {
 				dispose();
 			}
 		});
-		btnJouer.setBounds(135, 338, 173, 55);
+		btnJouer.setBounds(161, 388, 173, 55);
 		contentPane.add(btnJouer);
 		
 		this.comboBoxMap = new JComboBox();
@@ -83,7 +84,7 @@ public class FrameMenu extends JFrame {
 		String[] tabOfMap = this.selectMapsDisponibles();
 		
 		comboBoxMap.setModel(new DefaultComboBoxModel(tabOfMap));
-		comboBoxMap.setBounds(325, 74, 145, 20);
+		comboBoxMap.setBounds(296, 53, 145, 20);
 		contentPane.add(comboBoxMap);
 		
 		JLabel label = new JLabel("");
