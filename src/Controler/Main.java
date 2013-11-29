@@ -224,7 +224,6 @@ public class Main extends Thread {
     			
     		}else{
     			// BLOQUE -> MEURT !!!!!
-    			this.isRunning = false;
     			this.frame.getButMenu().doClick();
     		}
     		

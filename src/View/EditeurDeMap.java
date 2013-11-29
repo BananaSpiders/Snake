@@ -66,6 +66,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	private JTextField select;
 	private int nbCaseH;
 	private JToggleButton tglbtnBouge;
+	private JToggleButton tglbtnDelete;
 
 	/**
 	 * Main test
@@ -284,6 +285,10 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		this.tglbtnBouge.setBounds(78, 234, 71, 23);
 		panel.add(this.tglbtnBouge);
 		
+		this.tglbtnDelete = new JToggleButton("");
+		this.tglbtnDelete.setBounds(10, 515, 33, 23);
+		panel.add(this.tglbtnDelete);
+		
 		
 		// panel dessin
 		JPanel panel_2 = new JPanel();
@@ -420,7 +425,16 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 			for(int i=0;i<Map.getNbCaseL();i++){
 				if(e.getSource() == this.lesCases[i][j].getButton()){
 					// ACTION au moment du clique sur une case
-					this.assigneNouvelleImage(this.lesCases[i][j]);
+					
+					if(this.tglbtnDelete.isSelected()){
+						System.out.println("Coucou");
+						this.lesCases[i][j] = new EditeurCase("herbe",new JButton(this.editImage.get("herbe")),false);
+						this.lesCases[i][j].getButton().setIcon(this.editImage.get("herbe"));
+					}
+					else{
+						this.assigneNouvelleImage(this.lesCases[i][j]);
+					}
+					
 				}
 			}
 		}
@@ -434,16 +448,18 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 				for(int i=0;i<Map.getNbCaseL();i++){
 					if(e.getSource() == this.lesCases[i][j].getButton()){
 						// ACTION au moment du clique sur une case
-						this.assigneNouvelleImage(this.lesCases[i][j]);
+						if(this.tglbtnDelete.isSelected()){
+							this.lesCases[i][j] = new EditeurCase("herbe",new JButton(this.editImage.get("herbe")),false);
+							this.lesCases[i][j].getButton().setIcon(this.editImage.get("herbe"));
+						}
+						else
+							this.assigneNouvelleImage(this.lesCases[i][j]);
 					}
 				}
 			}
 		}
 	}
 
-	
-	
-	
 	
 	// Assigne une nouvelle image a la case
 	public void assigneNouvelleImage(EditeurCase editCase){
