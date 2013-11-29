@@ -42,6 +42,7 @@ import java.util.Set;
 
 import javax.swing.SwingConstants;
 
+import Model.Association;
 import Model.EditeurCase;
 import Model.Map;
 import Parser.ParserSax;
@@ -288,6 +289,35 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		this.tglbtnDelete = new JToggleButton("");
 		this.tglbtnDelete.setBounds(10, 515, 33, 23);
 		panel.add(this.tglbtnDelete);
+
+		JButton button_10 = new JButton("");
+		button_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				select.setText("bonbon_red");
+			}
+		});
+		button_10.setIcon(this.editImage.get("bonbon_red"));
+		button_10.setBounds(78, 351, 40, 25);
+		panel.add(button_10);
+		
+		JLabel lblRed = new JLabel("Red :");
+		lblRed.setBounds(10, 362, 46, 14);
+		panel.add(lblRed);
+		
+		JLabel lblYellow = new JLabel("Yellow :");
+		lblYellow.setBounds(149, 362, 46, 14);
+		panel.add(lblYellow);
+		
+		JButton button_11 = new JButton("");
+		button_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				select.setText("bonbon_yellow");
+			}
+		});
+		button_11.setIcon(this.editImage.get("bonbon_yellow"));
+		button_11.setBounds(217, 351, 40, 25);
+		panel.add(button_11);
 		
 		
 		// panel dessin
@@ -346,6 +376,8 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		this.editImage.put("terreBD", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/terreBD.gif")));
 		this.editImage.put("barriere_bois", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/barriere_bois.gif")));
 		this.editImage.put("tronc", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/tronc.gif")));
+		this.editImage.put("bonbon_red", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/bonbon_red.gif")));
+		this.editImage.put("bonbon_yellow", new ImageIcon(EditeurDeMap.class.getResource("/images/editeur/bonbon_yellow.gif")));
 	}
 	/**
 	 * 	Demande la hauteure de la map
@@ -395,7 +427,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 				if(!this.lesCases[i][j].isObjet()){
 					mapASerialiser.getLesCases()[i][j].setSol(this.map.getMesImg().get(img));
 				}else{
-					mapASerialiser.getLesCases()[i][j].makeObjet(this.map.getMesImg().get(img), 1, 1, true);
+					mapASerialiser.getLesCases()[i][j].makeObjet(img,this.map.getMesImg().get(img), 1, 1, true);
 					mapASerialiser.getLesCases()[i][j].getObjet().setNombre_case_deplacement(this.lesCases[i][j].getNombre_case_deplacement());
 					mapASerialiser.getLesCases()[i][j].getObjet().setSens_deplacement(this.lesCases[i][j].getSens_deplacement());
 					mapASerialiser.getLesCases()[i][j].getObjet().setMoveDelay(this.lesCases[i][j].getMoveDelay());
@@ -469,6 +501,7 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 		editCase.setImgName(this.select.getText());
 		// dit si cest une imgae objet ou non
 		editCase.setObjet(this.isObjet(this.select.getText()));
+		
 		// si cest un objet et on a voulue qu'il bouge
 		if(this.isObjet(this.select.getText()))
 			if(tglbtnBouge.isSelected()){
@@ -521,13 +554,15 @@ public class EditeurDeMap extends JFrame implements ActionListener,MouseListener
 	
 	
 	
-	// test si le string est un objet ou non
+	// test si le string est un objet ou non, c'est ici que l'on donne la nature d'un objet.
 	public boolean isObjet(String str){
-		switch(str){
-			case "tronc" : case "barriere_bois" : return true;
-			
-			default : return false;
-		}
+		
+		for(int i=0; i< Association.getObjetAndChildren().length; i++)
+			if(str.equals(Association.getObjetAndChildren()[i]))
+				return true;
+		
+		return false;
+		
 	}
 	
 	

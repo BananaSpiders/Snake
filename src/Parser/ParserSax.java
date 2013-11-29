@@ -145,8 +145,7 @@ public class ParserSax {
 				// si objet, on rempli
 				if(inObjet){
 					if(objet != null){
-						
-						this.map.getLesCases()[i][j].makeObjet(this.map.getMesImg().get(objet), 1, 1, Boolean.parseBoolean(bloquant));
+						this.map.getLesCases()[i][j].makeObjet(objet,this.map.getMesImg().get(objet), 1, 1, Boolean.parseBoolean(bloquant));
 						
 						this.map.getLesCases()[i][j].getObjet().setNombre_case_deplacement(Integer.parseInt(nombre_case_deplacement));
 						this.map.getLesCases()[i][j].getObjet().setSens_deplacement(Integer.parseInt(sens_deplacement));

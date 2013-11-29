@@ -149,7 +149,7 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		
 		this.panel_marge_left.setLayout(null);
 		JLabel jl = new JLabel("");
-		jl.setIcon(new ImageIcon(this.map.getMesImg().get("margeLRFix")));
+		jl.setIcon(new ImageIcon(this.map.getMesImg().get("margeCoteGauche")));
 		jl.setPreferredSize(new Dimension(FrameSnake.FRAME_MARGE_LEFT,FrameSnake.FRAME_HEIGHT));
 		jl.setBounds(0,0,FrameSnake.FRAME_MARGE_LEFT,FrameSnake.FRAME_HEIGHT);
 		
@@ -161,7 +161,7 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		
 		this.panel_marge_right.setLayout(null);
 		JLabel jl = new JLabel("");
-		jl.setIcon(new ImageIcon(this.map.getMesImg().get("margeLRFix")));
+		jl.setIcon(new ImageIcon(this.map.getMesImg().get("margeCoteDroite")));
 		jl.setPreferredSize(new Dimension(FrameSnake.FRAME_MARGE_RIGHT,FrameSnake.FRAME_HEIGHT));
 		jl.setBounds(0,0,FrameSnake.FRAME_MARGE_RIGHT,FrameSnake.FRAME_HEIGHT);
 		

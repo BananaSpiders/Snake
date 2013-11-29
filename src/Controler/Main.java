@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import Model.Bonus;
 import Model.Case;
 import Model.Map;
 import Model.Objet;
@@ -219,12 +220,24 @@ public class Main extends Thread {
     	
     	// si il n'est pas null on regarde si il est bloquant, si il est null, on peut bouger car pas d'objet
     	if(obj != null){
-    		if(!obj.isBloque()){
-    			this.snake.move();
-    			
+    		
+    		
+    		// si c'est un bonus
+    		if(obj instanceof Bonus){
+    			((Bonus)obj).touche(this.map,this.snake);
     		}else{
     			// BLOQUE -> MEURT !!!!!
     			this.frame.getButMenu().doClick();
+    		
+    			// c'est un objet, si il est bloquant
+	    		if(!obj.isBloque()){
+	    			this.snake.move();
+	    			
+	    		}else{
+	    			// BLOQUE -> MEURT !!!!!
+	    			this.isRunning = false;
+	    			this.frame.getButMenu().doClick();
+	    		}
     		}
     		
     	}
@@ -354,13 +367,6 @@ public class Main extends Thread {
 	}
 	
 	
-	/**
-	 *  Instancie notre main :)
-	 * @param args
-	 */
-    public static void main(final String args[]) {
-    	
-    }
 
     /**
      *  GETTER ET SETTER
