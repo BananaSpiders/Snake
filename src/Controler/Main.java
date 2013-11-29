@@ -226,6 +226,8 @@ public class Main extends Thread {
     		if(obj instanceof Bonus){
     			((Bonus)obj).touche(this.map,this.snake);
     		}else{
+    			// BLOQUE -> MEURT !!!!!
+    			this.frame.getButMenu().doClick();
     		
     			// c'est un objet, si il est bloquant
 	    		if(!obj.isBloque()){
