@@ -60,16 +60,17 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode()==KeyEvent.VK_LEFT){
+		
+		if(e.getKeyCode()==KeyEvent.VK_LEFT || e.getKeyCode()==81){
 			this.owner.getSnake().wayUpdate("Left");
 		}
-		if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+		if(e.getKeyCode()==KeyEvent.VK_RIGHT || e.getKeyCode()==68){
 			this.owner.getSnake().wayUpdate("Right");
 		}
-		if(e.getKeyCode()==KeyEvent.VK_UP){
+		if(e.getKeyCode()==KeyEvent.VK_UP || e.getKeyCode()==90){
 			this.owner.getSnake().wayUpdate("Up");
 		}
-		if(e.getKeyCode()==KeyEvent.VK_DOWN){
+		if(e.getKeyCode()==KeyEvent.VK_DOWN || e.getKeyCode()==83){
 			this.owner.getSnake().wayUpdate("Down");
 		}		
 	}

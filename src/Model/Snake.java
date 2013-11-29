@@ -15,16 +15,16 @@ public class Snake {
 	 * 	ATTRIBUTS
 	 */
 	// static
-	private static final int TAILLE_MAX = 10;
+	private static final int TAILLE_MAX = 15;
 	// variables
 	private int snakeLength;
-	private int vDeplacement;
+	private static final float snakeSpeedDefaut = 0.9f;
 	private String direction;
 	// models
 	private Main owner;
 	//tableau
 	private SnakePart[] body;
-	private static float snakeSpeed = 1.0f;
+	private static float snakeSpeed = 0.9f;
 	
 	
 	/**
@@ -38,13 +38,27 @@ public class Snake {
 		// on cree les parties
 		this.body = new SnakePart[Snake.TAILLE_MAX];
 		// on initialise les parties
-		for(int i = 0;i<5;i++)
-			this.body[i] = new SnakePart(this.owner.getMap().getLesCases()[10][Main.SNAKE_CENTER_Y-i]);
+		for(int i = 0;i<this.snakeLength;i++)
+			this.body[i] = new SnakePart(this.owner.getMap().getLesCases()[10][this.owner.getMap().getEndY()-1]);
 	}
 	
 	/*
 	 *  METHODES
 	 */
+	
+	/*
+	 * Ajoute une partie de plus au snake, retourne false si le snake a atteind son maximum
+	 */
+	public boolean addOnePart(){
+		if(this.snakeLength == Snake.TAILLE_MAX)
+			return false;
+		
+		this.body[this.snakeLength] = new SnakePart(this.body[this.snakeLength-1].getActualCase());
+		
+		this.snakeLength++;
+		return true;
+	}
+	
 	/*
 	 *  Move method
 	 */
@@ -94,7 +108,13 @@ public class Snake {
 		}
 		
 		
+		// Si on est a larrivee, on GAGNE !
+		if(this.body[0].getActualCase().getJ() == 0){
+			JOptionPane.showMessageDialog(this.owner.getFrame(), "gg", "gagnee ! On passe au niveau suivant !!", JOptionPane.INFORMATION_MESSAGE);
+			this.owner.retourMenu();
+		}
 	}
+	
 	/*
 	 *  Verifie si la direction choisi n'est pas oposee a celle ou on va
 	 */
@@ -165,13 +185,7 @@ public class Snake {
 		this.body = body;
 	}
 
-	public int getvDeplacement() {
-		return vDeplacement;
-	}
 
-	public void setvDeplacement(int vDeplacement) {
-		this.vDeplacement = vDeplacement;
-	}
 
 	public Main getOwner() {
 		return owner;
@@ -207,6 +221,14 @@ public class Snake {
 
 	public static void setSnakeSpeed(float snakeSpeed) {
 		Snake.snakeSpeed = snakeSpeed;
+	}
+
+	public static int getTailleMax() {
+		return TAILLE_MAX;
+	}
+
+	public static float getSnakespeeddefaut() {
+		return snakeSpeedDefaut;
 	}
 	
 	

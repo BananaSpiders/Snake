@@ -233,8 +233,7 @@ public class Main extends Thread {
 	    			
 	    		}else{
 	    			// BLOQUE -> MEURT !!!!!
-	    			this.isRunning = false;
-	    			this.frame.getButMenu().doClick();
+	    			this.retourMenu();
 	    		}
     		}
     		
@@ -242,6 +241,11 @@ public class Main extends Thread {
     	else{
     		this.snake.move();
     	}
+    }
+    
+    public void retourMenu(){
+    	this.isRunning = false;
+		this.frame.getButMenu().doClick();
     }
 
     /**

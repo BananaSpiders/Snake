@@ -1,10 +1,15 @@
 package Model;
 
 import java.awt.Image;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import Model.Objet.TimerObjet;
 
 public class Bonus extends Objet{
 
-	public String bon;
+	private String name;
+	
 	/**
 	 * 	CONSTRUCTEUR
 	 * @param objet
@@ -12,7 +17,6 @@ public class Bonus extends Objet{
 	 */
 	public Bonus(Image objet, Case owner) {
 		super(objet, owner);
-		this.bon = "bonuuuus";
 	}
 	
 	
@@ -24,12 +28,77 @@ public class Bonus extends Objet{
 		int i = this.getOwner().getI();
 		int j = this.getOwner().getJ();
 		
+		//on enleve le timer de l'objet si il en avait un
+		if(this.getTimerMove() != null){
+			this.getTimerMove().cancel();
+			this.getTimerMove().purge();
+		}
 		//on suprimme le bonus de la map
 		map.getLesCases()[i][j].setObjet(null);
 		
-		// on fait accelerer le serpent
-		Snake.setSnakeSpeed(Snake.getSnakeSpeed()*1.2f);
+		// on fait une action differente en fonction du bonus
+		
+		// BONBON jaune : on accelere
+		if(this.getName().equals(Association.Bonus[0]))
+			this.accelereSnake(4000,1.5f);
+		// BONBON rouge : on rajoute une snake part
+		else if(this.getName().equals(Association.Bonus[1]))
+			snake.addOnePart();
 	}
 	
+	
+	public void accelereSnake(long time, float coefSpeed){
+		// on fait accelerer le serpent pendant 
+		Snake.setSnakeSpeed(Snake.getSnakeSpeed()*coefSpeed);
+		
+		Timer timerStop = new Timer();
+		TimerStopAcceleration timerStopAcceleration = new TimerStopAcceleration(timerStop);
+		timerStop.scheduleAtFixedRate(timerStopAcceleration, 0, time);
+	}
+	
+	
+	
+	
+	/*
+	 *  LES CLASS INTERNES
+	 */
+	
+	/*
+	 *  Stop l'acceleration du serpent
+	 */
+	public class TimerStopAcceleration extends TimerTask{
+		
+		private Timer timerStop;
+		private boolean stop;
+		
+		public TimerStopAcceleration(Timer timerStop){
+			this.timerStop = timerStop;
+			this.stop = false;
+		}
+		@Override
+		public void run() {
+			if(this.stop){
+				Snake.setSnakeSpeed(Snake.getSnakespeeddefaut());
+				this.timerStop.cancel();
+				this.timerStop.purge();
+			}else
+				this.stop = true;
+		}
+	}
 
+
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
+	
 }
+

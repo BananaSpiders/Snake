@@ -20,6 +20,7 @@ public class Objet {
 	private long moveDelay;
 	private int nombre_case_reste_deplacement;
 	private Case owner;
+	private Timer timerMove;
 	
 	
 	/*
@@ -33,6 +34,7 @@ public class Objet {
 		this.sens_deplacement = 0;
 		this.owner = owner;
 		this.moveDelay = 1000;
+		this.timerMove = null;
 	}
 	
 	public Objet(Image obj, int nbL, int nbH, boolean bloque, Case owner){
@@ -42,6 +44,7 @@ public class Objet {
 		this.bloque = bloque;
 		this.owner = owner;
 		this.moveDelay = 1000;
+		this.timerMove = null;
 	}
 	
 	/**
@@ -54,9 +57,9 @@ public class Objet {
 	public void move(Map map){
 		
 		TimerObjet timerObjet = new TimerObjet(map,this);
-		Timer timer = new Timer();
+		this.timerMove = new Timer();
 		//System.out.println(this.moveDelay);
-		timer.scheduleAtFixedRate(timerObjet, 0, this.moveDelay);
+		timerMove.scheduleAtFixedRate(timerObjet, 0, this.moveDelay);
 	}
 	
 	/**
@@ -196,6 +199,14 @@ public class Objet {
 
 	public void setMoveDelay(long moveDelay) {
 		this.moveDelay = moveDelay;
+	}
+
+	public Timer getTimerMove() {
+		return timerMove;
+	}
+
+	public void setTimerMove(Timer timerMove) {
+		this.timerMove = timerMove;
 	}
 	
 }

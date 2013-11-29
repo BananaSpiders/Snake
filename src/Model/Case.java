@@ -46,6 +46,7 @@ public class Case {
 		for(int i=0; i<Association.Bonus.length; i++)
 			if(nomImg.equals(Association.Bonus[i])){
 				this.objet = new Bonus(img,this);
+				((Bonus)this.objet).setName(nomImg);
 				isInstanceOfObjet = false;
 			}
 		
