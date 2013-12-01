@@ -14,6 +14,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import Controler.Main;
+import Model.Association;
+import Model.Bonus;
 import Model.Map;
 
 public class ParserSax {
@@ -24,15 +27,18 @@ public class ParserSax {
 	public Map myMap;
 
 
-	public static void main(String argv[]) {
+	/*public static void main(String argv[]) {
 		ParserSax ps = new ParserSax("level1");
 		System.out.println(ps.isMyMapReady());
 		if(ps.isMyMapReady())
 			System.out.println(ps.myMap);
 	}
-
-	public ParserSax(String nomMap){
-
+*/
+	private Main main;
+	
+	public ParserSax(String nomMap, Main main){
+		this.main = main;
+		
 		try {
 			this.myMap = null;
 			SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -152,6 +158,11 @@ public class ParserSax {
 						this.map.getLesCases()[i][j].getObjet().setMoveDelay(Integer.parseInt(moveDelay));
 						if(Integer.parseInt(nombre_case_deplacement)>0)
 							this.map.getLesCases()[i][j].getObjet().move(this.map);
+						
+						// si c'est un bonbon rouge on incremente la variable a cet affet dans le main
+						if(objet.equals(Association.Bonus[1])) // egal bonbon red
+							this.owner.main.setNbBonbonRouge(this.owner.main.getNbBonbonRouge() + 1);
+								
 					}
 				}
 			}

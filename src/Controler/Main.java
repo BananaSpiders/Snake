@@ -51,7 +51,7 @@ public class Main extends Thread {
     			.getDefaultConfiguration();
     
     
-      // TIMER
+    // TIMER
     private Timer timerChrono;
     // Models
     private Map map;
@@ -65,15 +65,23 @@ public class Main extends Thread {
 	private int scale = 1;
     private boolean isRunning = true;
     private String mapPlay;
+    private int nbBonbonRouge;
+    private int nbBonbonRougeAttrape;
+    
 	
     /**
      *  CONSTRUCTEUR, initialisations
      */
     public Main(String mapToLoad) {
-    	
+    	// init
+    	this.nbBonbonRouge = 0; // le parser s'occupera de donner le bon nombre 
+    	this.nbBonbonRougeAttrape = 0;
     	this.mapPlay = mapToLoad;
-    	//On charge la map
+    	
+    	//On charge la map (en utilisant le parser)
     	this.loadMap(mapPlay);
+    	
+    	System.out.println("Nombre de bonbons rouges : "+this.nbBonbonRouge);
     	
 		this.snake = new Snake(this);
 		
@@ -89,7 +97,7 @@ public class Main extends Thread {
     	frame.pack();
     	frame.setVisible(true);
     	frame.setLayout(null);
-    	
+
     	
     	// Canvas
     	canvas = new Canvas(config);
@@ -99,6 +107,7 @@ public class Main extends Thread {
     	
     	// Marges Panels
     	this.frame.initMarges(this.map);
+    	this.refreshNbBonusAttrape();
     	
 
     	// Background & Buffer
@@ -164,10 +173,12 @@ public class Main extends Thread {
     /**
      *  Graphic Method
      */
+    
+    public void refreshNbBonusAttrape(){
+    	this.frame.getLabBonbonRouge().setText(this.nbBonbonRougeAttrape+"/"+this.getNbBonbonRouge()+" bonus");
+    }
+    
     // Ferme la fenetre
-    
-    
-    
     private class FrameClose extends WindowAdapter {
     	@Override
     	public void windowClosing(final WindowEvent e) {
@@ -231,7 +242,7 @@ public class Main extends Thread {
     		
     		// si c'est un bonus
     		if(obj instanceof Bonus){
-    			((Bonus)obj).touche(this.map,this.snake);
+    			((Bonus)obj).touche(this.map,this.snake,this);
     		}else{
     			// c'est un objet, si il est bloquant
 	    		if(!obj.isBloque()){
@@ -364,7 +375,7 @@ public class Main extends Thread {
 	 *  Load la map
 	 */
 	public void loadMap(String nomMap){
-		ParserSax ps = new ParserSax(""+nomMap);
+		ParserSax ps = new ParserSax(""+nomMap,this);
 		
 		if(ps.isMyMapReady()){
 			System.out.println("La map : "+nomMap+" a bien ete chargee.");
@@ -488,5 +499,29 @@ public class Main extends Thread {
 
 	public void setMapPlay(String mapPlay) {
 		this.mapPlay = mapPlay;
+	}
+
+	public Timer getTimerChrono() {
+		return timerChrono;
+	}
+
+	public void setTimerChrono(Timer timerChrono) {
+		this.timerChrono = timerChrono;
+	}
+
+	public int getNbBonbonRouge() {
+		return nbBonbonRouge;
+	}
+
+	public void setNbBonbonRouge(int nbBonbonRouge) {
+		this.nbBonbonRouge = nbBonbonRouge;
+	}
+
+	public int getNbBonbonRougeAttrape() {
+		return nbBonbonRougeAttrape;
+	}
+
+	public void setNbBonbonRougeAttrape(int nbBonbonRougeAttrape) {
+		this.nbBonbonRougeAttrape = nbBonbonRougeAttrape;
 	}
 }

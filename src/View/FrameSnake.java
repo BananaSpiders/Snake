@@ -50,6 +50,7 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 	private Map map;
 	private JButton butMenu;
 	private JLabel labChrono;
+	private JLabel labBonbonRouge;
 	/*
 	 *  CONSTRUCTEUR
 	 */
@@ -151,10 +152,16 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		this.labChrono = new JLabel();
 		this.labChrono.setForeground(Color.WHITE);
 		this.labChrono.setFocusable(false);
-		this.labChrono.setBounds(200, 0, 200, 50);
+		this.labChrono.setBounds(300, 0, 200, 50);
+		
+		this.labBonbonRouge = new JLabel();
+		this.labBonbonRouge.setForeground(Color.WHITE);
+		this.labBonbonRouge.setFocusable(false);
+		this.labBonbonRouge.setBounds(150, 0, 100, 50);
 	
 		this.panel_marge_top.add(butMenu);
 		this.panel_marge_top.add(this.labChrono);
+		this.panel_marge_top.add(this.labBonbonRouge);
 	}
 	// LEFT
 	public void initLeft(){
@@ -320,5 +327,24 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		return FRAME_MARGE_BOTTOM;
 	}
 
+	public JLabel getLabChrono() {
+		return labChrono;
+	}
+
+	public void setLabChrono(JLabel labChrono) {
+		this.labChrono = labChrono;
+	}
+
+	public JLabel getLabBonbonRouge() {
+		return labBonbonRouge;
+	}
+
+	public void setLabBonbonRouge(JLabel labBonbonRouge) {
+		this.labBonbonRouge = labBonbonRouge;
+	}
+
+	
+
 	
 }
+

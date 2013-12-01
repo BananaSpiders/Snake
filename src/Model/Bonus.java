@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Controler.Main;
 import Model.Objet.TimerObjet;
 
 public class Bonus extends Objet{
@@ -23,7 +24,7 @@ public class Bonus extends Objet{
 	/**
 	 *  METHODE
 	 */
-	public void touche(Map map,Snake snake){
+	public void touche(Map map,Snake snake,Main main){
 		//on recupere les position de l'objet
 		int i = this.getOwner().getI();
 		int j = this.getOwner().getJ();
@@ -42,8 +43,12 @@ public class Bonus extends Objet{
 		if(this.getName().equals(Association.Bonus[0]))
 			this.accelereSnake(4000,1.5f);
 		// BONBON rouge : on rajoute une snake part
-		else if(this.getName().equals(Association.Bonus[1]))
+		else if(this.getName().equals(Association.Bonus[1])){
 			snake.addOnePart();
+			// et on dit au main qu'on a chope un bonus de plus
+			main.setNbBonbonRougeAttrape(main.getNbBonbonRougeAttrape() + 1);
+			main.refreshNbBonusAttrape();
+		}
 	}
 	
 	
