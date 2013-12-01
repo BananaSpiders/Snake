@@ -127,7 +127,7 @@ public class Snake {
 				this.owner.retourMenu();
 			}
 			
-			//System.out.println(numerroMap);
+			System.out.println("=>>>>"+numerroMap);
 			
 			// on regarde si il reste des maps
 			String[] mapRestantes = FrameMenu.selectMapsDisponibles();

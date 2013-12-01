@@ -228,9 +228,6 @@ public class Main extends Thread {
     		if(obj instanceof Bonus){
     			((Bonus)obj).touche(this.map,this.snake);
     		}else{
-    			// BLOQUE -> MEURT !!!!!
-    			this.frame.getButMenu().doClick();
-    		
     			// c'est un objet, si il est bloquant
 	    		if(!obj.isBloque()){
 	    			this.snake.move();
@@ -312,7 +309,7 @@ public class Main extends Thread {
 	
 	// DRAW SNAKE
 	public void drawSnake(Graphics2D g){
-		System.out.println();
+		
 		// draw tete
 		g.drawImage(this.snake.getBody()[0].getImgTete()[1], this.snake.getBody()[0].getActualCase().getX(), this.snake.getBody()[0].getActualCase().getY(), Case.LARGEUR_CASE, Case.LARGEUR_CASE, null);
 		// draw corps
