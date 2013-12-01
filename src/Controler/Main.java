@@ -11,6 +11,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -49,7 +51,8 @@ public class Main extends Thread {
     			.getDefaultConfiguration();
     
     
-       
+      // TIMER
+    private Timer timerChrono;
     // Models
     private Map map;
 	private Snake snake;
@@ -67,8 +70,6 @@ public class Main extends Thread {
      *  CONSTRUCTEUR, initialisations
      */
     public Main(String mapToLoad) {
-    	// Creation des models
-    	//this.map = new Map();
     	
     	this.mapPlay = mapToLoad;
     	//On charge la map
@@ -78,7 +79,7 @@ public class Main extends Thread {
 		
 		//UpdateThread
 		this.updateThread = new UpdateThread(this);
-		this.updateThread.start();
+		this.updateThread.start();		
 		
     	// JFrame
     	frame = new FrameSnake(this);
@@ -106,6 +107,9 @@ public class Main extends Thread {
     	do {
     		strategy = canvas.getBufferStrategy();
     	} while (strategy == null);
+    	
+    	
+    	this.frame.startChrono();
     	start();
     	
     	
@@ -153,6 +157,7 @@ public class Main extends Thread {
     		renderTime = (System.nanoTime() - renderStart) / 1000000;
 
     	}
+
     	frame.dispose();
     }
     
@@ -368,6 +373,7 @@ public class Main extends Thread {
 		else
 			System.out.println("Erreur lors du chargement de la map : "+ps.myMap);
 	}
+	
 	
 	
 

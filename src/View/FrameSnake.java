@@ -1,6 +1,7 @@
 package View;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Window;
@@ -9,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Controler.Main;
+
 import Controler.UpdateThread;
 import Model.Map;
 
@@ -45,6 +49,7 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
     
 	private Map map;
 	private JButton butMenu;
+	private JLabel labChrono;
 	/*
 	 *  CONSTRUCTEUR
 	 */
@@ -141,8 +146,15 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		this.butMenu.addActionListener(this);
 		 
 		butMenu.setBounds(FrameSnake.GET_TOTAL_WIDTH() - wMenu - 5, 5, wMenu, wMenu);
+		
+		
+		this.labChrono = new JLabel();
+		this.labChrono.setForeground(Color.WHITE);
+		this.labChrono.setFocusable(false);
+		this.labChrono.setBounds(200, 0, 200, 50);
 	
 		this.panel_marge_top.add(butMenu);
+		this.panel_marge_top.add(this.labChrono);
 	}
 	// LEFT
 	public void initLeft(){
@@ -167,6 +179,43 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		jl.setBounds(0,0,FrameSnake.FRAME_MARGE_RIGHT,FrameSnake.FRAME_HEIGHT);
 		
 		this.panel_marge_right.add(jl);
+	}
+	
+	public void startChrono(){
+		//Timer Chronometre
+		Timer timerChrono = new Timer();
+		TimerChrono timeTaskChrono = new TimerChrono(this.labChrono);
+		timerChrono.scheduleAtFixedRate(timeTaskChrono, 0, 1000);
+	}
+	
+	
+	
+	/** 
+	 * TIMER
+	 */
+	/**
+	 * Timer Chronometre
+	 */
+	public class TimerChrono extends TimerTask{
+		
+		private JLabel jlab;
+		private int seconde;
+		private int minute;
+		
+		public TimerChrono(JLabel jlab){
+			this.seconde = 0;
+			this.minute = 0;
+			this.jlab = jlab;
+		}
+		
+		public void run(){
+			this.jlab.setText(this.minute+"min(s) "+this.seconde+"sec(s)");
+			this.seconde ++;
+			if(this.seconde>=60){
+				this.seconde = 0;
+				this.minute++;
+			}
+		}
 	}
 	
 	
