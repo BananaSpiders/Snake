@@ -61,6 +61,7 @@ public class Main extends Thread {
 	// Variables
 	private int scale = 1;
     private boolean isRunning = true;
+    private String mapPlay;
 	
     /**
      *  CONSTRUCTEUR, initialisations
@@ -69,8 +70,9 @@ public class Main extends Thread {
     	// Creation des models
     	//this.map = new Map();
     	
+    	this.mapPlay = mapToLoad;
     	//On charge la map
-    	this.loadMap(mapToLoad);
+    	this.loadMap(mapPlay);
     	
 		this.snake = new Snake(this);
 		
@@ -467,5 +469,21 @@ public class Main extends Thread {
 
 	public static int getSnakeCenterY() {
 		return SNAKE_CENTER_Y;
+	}
+
+	public UpdateThread getUpdateThread() {
+		return updateThread;
+	}
+
+	public void setUpdateThread(UpdateThread updateThread) {
+		this.updateThread = updateThread;
+	}
+
+	public String getMapPlay() {
+		return mapPlay;
+	}
+
+	public void setMapPlay(String mapPlay) {
+		this.mapPlay = mapPlay;
 	}
 }

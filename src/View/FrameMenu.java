@@ -101,7 +101,7 @@ public class FrameMenu extends JFrame {
 	 * 	Retourne les maps disponibles
 	 * @return String[] mapFound
 	 */
-	public String[] selectMapsDisponibles(){
+	public static String[] selectMapsDisponibles(){
 		// on recupere les path vers les map
 		File fileRepertoireMap = new File(System.getProperty("user.dir")+"\\map\\");
 		File[] fileListMap = fileRepertoireMap.listFiles();
