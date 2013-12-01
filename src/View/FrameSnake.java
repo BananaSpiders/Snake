@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Controler.Main;
-
 import Controler.UpdateThread;
 import Model.Map;
 
@@ -46,11 +45,21 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
     private JPanel panel_marge_bottom;
     private JPanel panel_marge_left;
     private JPanel panel_marge_right;
+    private JPanel panel_end;
     
 	private Map map;
 	private JButton butMenu;
+	private JButton butEndSuivant;
+	private JButton butEndMenu;
+	
 	private JLabel labChrono;
 	private JLabel labBonbonRouge;
+	
+	
+	
+	// Timer
+	private TimerChrono timeTaskChrono;
+	
 	/*
 	 *  CONSTRUCTEUR
 	 */
@@ -83,14 +92,22 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == this.butMenu){
+		
+		if(e.getSource() == this.butMenu || e.getSource() == this.butEndMenu){
 			FrameMenu frame = new FrameMenu();
 			frame.setVisible(true);
 			
 			this.owner.updateThread.stopRunning();
 			this.owner.stopRunning();
 			this.dispose();
-		}				
+		}
+		
+		if(e.getSource() == this.butEndSuivant){
+			// on passe la map suivante
+			this.owner.nextMap();
+			
+		}
+		
 	}
 	
 	////////////////
@@ -124,6 +141,13 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		this.add(this.panel_marge_bottom);
 		this.add(this.panel_marge_left);
 		this.add(this.panel_marge_right);
+		
+		this.butEndSuivant = new JButton("Suivant");
+		this.butEndSuivant.setBounds(100, 350, 100, 50);
+		this.butEndSuivant.addActionListener(this);
+		this.butEndMenu = new JButton("Menu");
+		this.butEndMenu.setBounds(250, 350, 100, 50);
+		this.butEndMenu.addActionListener(this);
 	}
 
 	/**
@@ -191,8 +215,8 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 	public void startChrono(){
 		//Timer Chronometre
 		Timer timerChrono = new Timer();
-		TimerChrono timeTaskChrono = new TimerChrono(this.labChrono);
-		timerChrono.scheduleAtFixedRate(timeTaskChrono, 0, 1000);
+		this.timeTaskChrono = new TimerChrono(this.labChrono);
+		timerChrono.scheduleAtFixedRate(this.timeTaskChrono, 0, 1000);
 	}
 	
 	
@@ -206,8 +230,8 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 	public class TimerChrono extends TimerTask{
 		
 		private JLabel jlab;
-		private int seconde;
-		private int minute;
+		public int seconde;
+		public int minute;
 		
 		public TimerChrono(JLabel jlab){
 			this.seconde = 0;
@@ -225,6 +249,51 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		}
 	}
 	
+	/*
+	 *  Affiche le panel End
+	 */
+	public void showEndPanel(){
+		//on init le panel
+    	this.setPanel_end(new JPanel());
+    	JPanel panelEnd = this.getPanel_end();
+    	// on le place ou il y avait le canvas
+    	panelEnd.setBounds(FrameSnake.FRAME_MARGE_LEFT,FrameSnake.FRAME_MARGE_TOP,FrameSnake.FRAME_WIDTH,FrameSnake.FRAME_HEIGHT);
+    	
+    	// on met le fond en noir et met le layout a null
+    	panelEnd.setBackground(Color.BLACK);
+    	panelEnd.setLayout(null);
+    	
+    	//Jlabel qui explique le resultat
+    	JLabel jlabResultat = new JLabel("Bravo vous avez fini le niveau !");
+    	jlabResultat.setForeground(Color.WHITE);
+    	jlabResultat.setBounds(120, 50, 200, 50);
+    	panelEnd.add(jlabResultat);
+    	
+    	// on initialise nos label qui feront office d'etoile ( 1er etoile = partie reussi / 2ieme etoile = tout les bonus rouge recuperer / 3ieme = reussi dans le laps de temps cf this.tempsChrono)
+    	JLabel[] labEtoile = new JLabel[3];
+    	// on recupere le chrono en seconde
+    	int nbSecondeChrono = (this.getTimeTaskChrono().minute * 60) + (this.getTimeTaskChrono().seconde);
+    	// pour les 3 etoilees on regader si le joueur a valide ou non et en fonction on affiche la bonne etoile
+    	for(int i=0; i<3 ; i++){
+    		if(i==0 || (i==1 && this.owner.getNbBonbonRouge() == this.owner.getNbBonbonRougeAttrape()) || (i==2 && nbSecondeChrono <= this.owner.getTempsChrono()))
+    			labEtoile[i] = new JLabel(new ImageIcon(this.map.getMesImg().get("endEtoile")));
+    		else
+    			labEtoile[i] = new JLabel(new ImageIcon(this.map.getMesImg().get("endEtoileVide")));
+	    	labEtoile[i].setForeground(Color.WHITE);
+	    	labEtoile[i].setBounds(130 + (i*55), 150, 50, 50);
+	    	panelEnd.add(labEtoile[i]);
+    	}
+    	
+    	
+    	// ajoute le bouton continuer
+    	panelEnd.add(this.butEndSuivant);
+    	//ajoute le bouton menu
+    	panelEnd.add(this.butEndMenu);
+
+    	
+    	// on ajoute le panel a la fenetre
+    	this.add(panelEnd);
+	}
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -342,6 +411,24 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 	public void setLabBonbonRouge(JLabel labBonbonRouge) {
 		this.labBonbonRouge = labBonbonRouge;
 	}
+
+	public JPanel getPanel_end() {
+		return panel_end;
+	}
+
+	public void setPanel_end(JPanel panel_end) {
+		this.panel_end = panel_end;
+	}
+
+	public TimerChrono getTimeTaskChrono() {
+		return timeTaskChrono;
+	}
+
+	public void setTimeTaskChrono(TimerChrono timeTaskChrono) {
+		this.timeTaskChrono = timeTaskChrono;
+	}
+
+
 
 	
 

@@ -2,9 +2,11 @@ package Controler;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.event.WindowAdapter;
@@ -13,9 +15,14 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -26,6 +33,7 @@ import Model.Map;
 import Model.Objet;
 import Model.Snake;
 import Parser.ParserSax;
+import View.FrameMenu;
 import View.FrameSnake;
 
 /**
@@ -67,6 +75,7 @@ public class Main extends Thread {
     private String mapPlay;
     private int nbBonbonRouge;
     private int nbBonbonRougeAttrape;
+    private int tempsChrono;
     
 	
     /**
@@ -76,6 +85,7 @@ public class Main extends Thread {
     	// init
     	this.nbBonbonRouge = 0; // le parser s'occupera de donner le bon nombre 
     	this.nbBonbonRougeAttrape = 0;
+    	this.tempsChrono = 45;
     	this.mapPlay = mapToLoad;
     	
     	//On charge la map (en utilisant le parser)
@@ -260,6 +270,61 @@ public class Main extends Thread {
     	}
     }
     
+    /*
+     *  END
+     */
+    public void end(){
+    	
+    	// on stop le chrono
+    	this.getFrame().getTimeTaskChrono().cancel();
+	
+    	// on cache le canvas
+    	this.canvas.setVisible(false);
+    	
+    	//// on affiche a la place le panel "END" /////
+    	this.getFrame().showEndPanel();
+    	
+    	// on dit quil a gg (ca fait une pause :)
+		//JOptionPane.showMessageDialog(this.getFrame(), "gg", "gagnee ! On passe au niveau suivant !!", JOptionPane.INFORMATION_MESSAGE);
+		
+		
+    }
+    
+    /*
+     *  Switch a la carte suivante si cest posssible
+     */
+    public void nextMap(){
+    	// on recupere le numero de la map actuelle
+    			Pattern p = Pattern.compile("(.)*_([0-9])*");
+    			Matcher mFile = p.matcher(this.getMapPlay());
+    			
+    			int numerroMap = 0;
+    			try{
+    				numerroMap = Integer.parseInt(mFile.replaceAll("$2"));
+    			}catch(Exception e){
+    				this.retourMenu();
+    			}
+    			
+    			System.out.println("=>>>>"+numerroMap);
+    			
+    			// on regarde si il reste des maps
+    			String[] mapRestantes = FrameMenu.selectMapsDisponibles();
+    			if(numerroMap<mapRestantes.length){
+    				Main m = new Main("level_"+(numerroMap+1));
+    				m.getFrame().setVisible(false);
+    				m.getFrame().setVisible(true);
+    				this.setRunning(false);
+    				
+    			}else{
+    				JOptionPane.showMessageDialog(this.getFrame(), "BRAVO !", "Vous avez fini tous les niveaux !  !!", JOptionPane.INFORMATION_MESSAGE);
+    				this.retourMenu();
+    			}
+    }
+    
+    
+    /*
+     *  RETOURNE AU MENU
+     */
     public void retourMenu(){
     	this.isRunning = false;
 		this.frame.getButMenu().doClick();
@@ -523,5 +588,13 @@ public class Main extends Thread {
 
 	public void setNbBonbonRougeAttrape(int nbBonbonRougeAttrape) {
 		this.nbBonbonRougeAttrape = nbBonbonRougeAttrape;
+	}
+
+	public int getTempsChrono() {
+		return tempsChrono;
+	}
+
+	public void setTempsChrono(int tempsChrono) {
+		this.tempsChrono = tempsChrono;
 	}
 }

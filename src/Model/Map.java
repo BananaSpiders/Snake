@@ -109,6 +109,11 @@ public class Map {
 			for(int i=0; i<Association.Bonus.length; i++)
 				this.mesImg.put(Association.Bonus[i], new ImageIcon(this.getClass().getResource("/images/"+Association.Bonus[i]+".gif")).getImage()) ;
 			
+			
+			// Panel End
+			this.mesImg.put("endEtoile", new ImageIcon(this.getClass().getResource("/images/etoile.gif")).getImage()) ;
+			this.mesImg.put("endEtoileVide", new ImageIcon(this.getClass().getResource("/images/etoileVide.gif")).getImage()) ;
+			
 		}catch(Exception e){
 			System.out.println("Erreur de chargement des images de la map :"+e);
 		}

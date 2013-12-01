@@ -113,35 +113,7 @@ public class Snake {
 		
 		// Si on est a larrivee, on GAGNE !
 		if(this.body[0].getActualCase().getJ() == 0){
-			JOptionPane.showMessageDialog(this.owner.getFrame(), "gg", "gagnee ! On passe au niveau suivant !!", JOptionPane.INFORMATION_MESSAGE);
-			
-			
-			// on recupere le numero de la map actuelle
-			Pattern p = Pattern.compile("(.)*_([0-9])*");
-			Matcher mFile = p.matcher(this.owner.getMapPlay());
-			
-			int numerroMap = 0;
-			try{
-				numerroMap = Integer.parseInt(mFile.replaceAll("$2"));
-			}catch(Exception e){
-				this.owner.retourMenu();
-			}
-			
-			System.out.println("=>>>>"+numerroMap);
-			
-			// on regarde si il reste des maps
-			String[] mapRestantes = FrameMenu.selectMapsDisponibles();
-			if(numerroMap<mapRestantes.length){
-				Main m = new Main("level_"+(numerroMap+1));
-				m.getFrame().setVisible(false);
-				m.getFrame().setVisible(true);
-				this.owner.setRunning(false);
-				
-			}else{
-				JOptionPane.showMessageDialog(this.owner.getFrame(), "BRAVO !", "Vous avez fini tous les niveaux !  !!", JOptionPane.INFORMATION_MESSAGE);
-				this.owner.retourMenu();
-			}
-			
+			this.owner.end();
 		}
 	}
 	
