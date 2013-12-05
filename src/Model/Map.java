@@ -104,6 +104,9 @@ public class Map {
 			this.mesImg.put("butMenu", new ImageIcon(this.getClass().getResource("/images/butMenu.gif")).getImage()) ;
 			this.mesImg.put("margeCoteDroite", new ImageIcon(this.getClass().getResource("/images/margeCoteDroite.gif")).getImage()) ;
 			this.mesImg.put("margeCoteGauche", new ImageIcon(this.getClass().getResource("/images/margeCoteGauche.gif")).getImage()) ;
+			this.mesImg.put("margeCoteBas", new ImageIcon(this.getClass().getResource("/images/margeCoteBas.gif")).getImage()) ;
+			this.mesImg.put("margeCoteHaut", new ImageIcon(this.getClass().getResource("/images/margeCoteHaut.gif")).getImage()) ;
+			this.mesImg.put("bgPanelEnd", new ImageIcon(this.getClass().getResource("/images/bgPanelEnd.gif")).getImage()) ;
 			
 			// BONBON
 			for(int i=0; i<Association.Bonus.length; i++)
@@ -113,6 +116,9 @@ public class Map {
 			// Panel End
 			this.mesImg.put("endEtoile", new ImageIcon(this.getClass().getResource("/images/etoile.gif")).getImage()) ;
 			this.mesImg.put("endEtoileVide", new ImageIcon(this.getClass().getResource("/images/etoileVide.gif")).getImage()) ;
+			this.mesImg.put("butPanelEndMenu", new ImageIcon(this.getClass().getResource("/images/butPanelEndMenu.gif")).getImage()) ;
+			this.mesImg.put("butPanelEndSuivant", new ImageIcon(this.getClass().getResource("/images/butPanelEndSuivant.gif")).getImage()) ;
+			this.mesImg.put("bgPanelEnd", new ImageIcon(this.getClass().getResource("/images/bgPanelEnd.gif")).getImage()) ;
 			
 		}catch(Exception e){
 			System.out.println("Erreur de chargement des images de la map :"+e);

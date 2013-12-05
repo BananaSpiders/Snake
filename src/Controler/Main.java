@@ -281,6 +281,7 @@ public class Main extends Thread {
     	// on cache le canvas
     	this.canvas.setVisible(false);
     	
+    	
     	//// on affiche a la place le panel "END" /////
     	this.getFrame().showEndPanel();
     	

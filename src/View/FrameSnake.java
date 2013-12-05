@@ -1,6 +1,7 @@
 package View;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -19,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import Controler.Main;
 import Controler.UpdateThread;
@@ -141,13 +143,6 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		this.add(this.panel_marge_bottom);
 		this.add(this.panel_marge_left);
 		this.add(this.panel_marge_right);
-		
-		this.butEndSuivant = new JButton("Suivant");
-		this.butEndSuivant.setBounds(100, 350, 100, 50);
-		this.butEndSuivant.addActionListener(this);
-		this.butEndMenu = new JButton("Menu");
-		this.butEndMenu.setBounds(250, 350, 100, 50);
-		this.butEndMenu.addActionListener(this);
 	}
 
 	/**
@@ -157,10 +152,14 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 	// BOTTOM
 	public void initBottom(){
 		this.panel_marge_bottom.setBackground(Color.BLACK);
+		this.panel_marge_bottom.setLayout(null);
+		JLabel jbg = new JLabel(new ImageIcon(this.owner.getMap().getMesImg().get("margeCoteBas")));
+		jbg.setBounds(0,0,this.panel_marge_bottom.getWidth(),this.panel_marge_bottom.getHeight());
+		this.panel_marge_bottom.add(jbg);
 	}
 	// TOP
 	public void initTop(){
-		this.panel_marge_top.setBackground(Color.BLACK);
+		this.panel_marge_top.setBackground(new Color(250,220,50));
 		this.panel_marge_top.setLayout(null);
 		
 		int wMenu = 30;
@@ -182,10 +181,15 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 		this.labBonbonRouge.setForeground(Color.WHITE);
 		this.labBonbonRouge.setFocusable(false);
 		this.labBonbonRouge.setBounds(150, 0, 100, 50);
+		
+		JLabel jbg = new JLabel(new ImageIcon(this.owner.getMap().getMesImg().get("margeCoteHaut")));
+		jbg.setBounds(0,0,this.panel_marge_top.getWidth(),this.panel_marge_top.getHeight());
+		
 	
 		this.panel_marge_top.add(butMenu);
 		this.panel_marge_top.add(this.labChrono);
 		this.panel_marge_top.add(this.labBonbonRouge);
+		this.panel_marge_top.add(jbg);
 	}
 	// LEFT
 	public void initLeft(){
@@ -253,23 +257,57 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
 	 *  Affiche le panel End
 	 */
 	public void showEndPanel(){
-		//on init le panel
-    	this.setPanel_end(new JPanel());
-    	JPanel panelEnd = this.getPanel_end();
-    	// on le place ou il y avait le canvas
-    	panelEnd.setBounds(FrameSnake.FRAME_MARGE_LEFT,FrameSnake.FRAME_MARGE_TOP,FrameSnake.FRAME_WIDTH,FrameSnake.FRAME_HEIGHT);
-    	
-    	// on met le fond en noir et met le layout a null
-    	panelEnd.setBackground(Color.BLACK);
-    	panelEnd.setLayout(null);
-    	
-    	//Jlabel qui explique le resultat
-    	JLabel jlabResultat = new JLabel("Bravo vous avez fini le niveau !");
-    	jlabResultat.setForeground(Color.WHITE);
-    	jlabResultat.setBounds(120, 50, 200, 50);
-    	panelEnd.add(jlabResultat);
-    	
-    	// on initialise nos label qui feront office d'etoile ( 1er etoile = partie reussi / 2ieme etoile = tout les bonus rouge recuperer / 3ieme = reussi dans le laps de temps cf this.tempsChrono)
+		// on enleve les marges
+		this.panel_marge_bottom.setVisible(false);
+		this.panel_marge_left.setVisible(false);
+		this.panel_marge_right.setVisible(false);
+		this.panel_marge_top.setVisible(false);
+		
+		// Definition du JPanel
+		this.panel_end = new JPanel();
+		this.panel_end.setBounds(0, 0, FrameSnake.GET_TOTAL_WIDTH(), FrameSnake.GET_TOTAL_HEIGHT());
+		this.panel_end.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.setContentPane(this.panel_end);
+		this.panel_end.setLayout(null);
+		
+		
+		// labels
+		JLabel lblBravoVous = new JLabel("F\u00E9licitation !");
+		lblBravoVous.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblBravoVous.setBounds(153, 115, 212, 92);
+		this.panel_end.add(lblBravoVous);
+		
+		JLabel lblVousAvezFini = new JLabel("Vous avez fini le niveau !");
+		lblVousAvezFini.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblVousAvezFini.setBounds(136, 218, 194, 47);
+		this.panel_end.add(lblVousAvezFini);
+		
+		
+		// boutons
+		this.butEndMenu = new JButton("");
+		this.butEndMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		this.butEndMenu.setIcon(new ImageIcon(this.owner.getMap().getMesImg().get("butPanelEndMenu")));
+		this.butEndMenu.setBounds(62, 453, 140, 50);
+		this.butEndMenu.addActionListener(this);
+		this.panel_end.add(this.butEndMenu);
+		
+		this.butEndSuivant = new JButton("");
+		this.butEndSuivant.setIcon(new ImageIcon(this.owner.getMap().getMesImg().get("butPanelEndSuivant")));
+		this.butEndSuivant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		this.butEndSuivant.setBounds(268, 453, 140, 50);
+		this.butEndSuivant.addActionListener(this);
+		this.panel_end.add(this.butEndSuivant);
+		
+		
+		// ETOILES
+		// on initialise nos label qui feront office d'etoile ( 1er etoile = partie reussi / 2ieme etoile = tout les bonus rouge recuperer / 3ieme = reussi dans le laps de temps cf this.tempsChrono)
     	JLabel[] labEtoile = new JLabel[3];
     	// on recupere le chrono en seconde
     	int nbSecondeChrono = (this.getTimeTaskChrono().minute * 60) + (this.getTimeTaskChrono().seconde);
@@ -280,19 +318,20 @@ public class FrameSnake extends JFrame implements KeyListener,ActionListener{
     		else
     			labEtoile[i] = new JLabel(new ImageIcon(this.map.getMesImg().get("endEtoileVide")));
 	    	labEtoile[i].setForeground(Color.WHITE);
-	    	labEtoile[i].setBounds(130 + (i*55), 150, 50, 50);
-	    	panelEnd.add(labEtoile[i]);
+	    	labEtoile[i].setBounds(155 + (i*55), 330, 50, 50);
+	    	this.panel_end.add(labEtoile[i]);
     	}
     	
-    	
-    	// ajoute le bouton continuer
-    	panelEnd.add(this.butEndSuivant);
-    	//ajoute le bouton menu
-    	panelEnd.add(this.butEndMenu);
-
-    	
-    	// on ajoute le panel a la fenetre
-    	this.add(panelEnd);
+		// Background
+		JLabel label = new JLabel("");
+		label.setBounds(0, 0, FrameSnake.GET_TOTAL_WIDTH(), FrameSnake.GET_TOTAL_HEIGHT());
+		label.setIcon(new ImageIcon(this.owner.getMap().getMesImg().get("bgPanelEnd")));
+		this.panel_end.add(label);
+		
+		// refresh
+		this.panel_end.setVisible(false);
+		this.panel_end.setVisible(true);
+		
 	}
 	
 	@Override
